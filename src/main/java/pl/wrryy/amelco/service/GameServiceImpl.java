@@ -1,7 +1,7 @@
 package pl.wrryy.amelco.service;
 
 import org.springframework.stereotype.Service;
-import pl.wrryy.amelco.entity.Category;
+import pl.wrryy.amelco.entity.Sport;
 import pl.wrryy.amelco.entity.Game;
 import pl.wrryy.amelco.entity.Team;
 import pl.wrryy.amelco.repository.GameRepository;
@@ -40,10 +40,10 @@ public class GameServiceImpl implements GameService {
     public List<Game> findAll() { return gameRepository.findAll(); }
 
     @Override
-    public List<Game> findGamesByCategory(Category category) { return gameRepository.findByCategory(category); }
+    public List<Game> findGamesByCategory(Sport sport) { return gameRepository.findBySport(sport); }
 
     @Override
-    public List<Game> findGamesByCategoryName(String category) { return gameRepository.findByCategory_Name(category); }
+    public List<Game> findGamesByCategoryName(String category) { return gameRepository.findBySport_Name(category); }
 
     @Override
     public List<Game> findGamesByDate(LocalDateTime date) { return gameRepository.findByStartedAfter(date); }

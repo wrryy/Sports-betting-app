@@ -1,6 +1,6 @@
 package pl.wrryy.amelco.service;
 
-import pl.wrryy.amelco.entity.Category;
+import pl.wrryy.amelco.entity.Sport;
 import pl.wrryy.amelco.entity.Game;
 import pl.wrryy.amelco.entity.Team;
 
@@ -14,7 +14,7 @@ public interface GameService {
     public void deleteGame(Game game);
     public void deleteGame(long id);
     public List<Game> findAll();
-    public List<Game> findGamesByCategory(Category category);
+    public List<Game> findGamesByCategory(Sport sport);
     public List<Game> findGamesByCategoryName(String category);
     public List<Game> findGamesByDate(LocalDateTime date);
     public void toggleActive(Game game);

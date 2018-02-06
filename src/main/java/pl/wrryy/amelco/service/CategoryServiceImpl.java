@@ -1,39 +1,39 @@
 package pl.wrryy.amelco.service;
 
 import org.springframework.stereotype.Service;
-import pl.wrryy.amelco.entity.Category;
-import pl.wrryy.amelco.repository.CategoryRepository;
+import pl.wrryy.amelco.entity.Sport;
+import pl.wrryy.amelco.repository.SportRepository;
 
 import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    private CategoryRepository categoryRepository;
+    private SportRepository sportRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public CategoryServiceImpl(SportRepository sportRepository) {
+        this.sportRepository = sportRepository;
     }
 
     @Override
-    public Category findOne(long id) {
-        return categoryRepository.findOne(id);
+    public Sport findOne(long id) {
+        return sportRepository.findOne(id);
     }
 
     @Override
-    public Category findByName(String name) { return categoryRepository.findByName(name); }
+    public Sport findByName(String name) { return sportRepository.findByName(name); }
 
     @Override
-    public void saveCategory(Category category) { categoryRepository.save(category); }
+    public void saveCategory(Sport sport) { sportRepository.save(sport); }
 
     @Override
-    public void deleteCategory(Category category) { categoryRepository.delete(category); }
+    public void deleteCategory(Sport sport) { sportRepository.delete(sport); }
 
     @Override
     public void deleteCategory(long id) {
-        categoryRepository.delete(id);
+        sportRepository.delete(id);
     }
 
     @Override
-    public List<Category> findAll() { return categoryRepository.findAll(); }
+    public List<Sport> findAll() { return sportRepository.findAll(); }
 
 }

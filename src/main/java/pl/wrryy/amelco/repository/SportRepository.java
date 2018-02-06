@@ -2,9 +2,9 @@ package pl.wrryy.amelco.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.wrryy.amelco.entity.Category;
+import pl.wrryy.amelco.entity.Sport;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long>{
-    public Category findByName(String name);
+public interface SportRepository extends JpaRepository<Sport, Long>{
+    public Sport findByName(String name);
 }

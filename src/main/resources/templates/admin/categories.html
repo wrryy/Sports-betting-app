@@ -23,8 +23,8 @@
 
 <div class=" div column-form">
     <div class="bb">
-        <form action="#" th:action="@{/admin/add/category}" method="post" th:object="${category}">
-            <h3 th:text="#{admin.add.category}"></h3>
+        <form action="#" th:action="@{/admin/add/sport}" method="post" th:object="${sport}">
+            <h3 th:text="#{admin.add.sport}"></h3>
             <div>
                 <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
                 <span th:text="#{team.name}"></span><input type="text" th:field="*{name}"/>
@@ -41,10 +41,10 @@
                 <th><a class="sorted" sd:pagination-sort="name" th:text="#{team.name}"></a></th>
                 <td><strong th:text="#{admin.action}"></strong></td>
             </tr>
-            <tr th:each="category,iter: ${categories}">
+            <tr th:each="sport,iter: ${categories}">
                 <td th:text="${iter.count}"></td>
-                <td th:text="${category.name}"></td>
-                <td><a th:text="#{admin.action.delete}" th:href="@{/admin/delete/category(id=${category.id})}"></a>
+                <td th:text="${sport.name}"></td>
+                <td><a th:text="#{admin.action.delete}" th:href="@{/admin/delete/sport(id=${sport.id})}"></a>
                 </td>
             </tr>
         </table>

@@ -4,27 +4,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Bet {
+public class Rate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    @NotNull
     private Game game;
-    @ManyToOne
-    @NotNull
-    private Coupon coupon;
-    private BigDecimal stake;
 
-    @ManyToOne
-    private Rate rate;
-
-//    private boolean active;
+    private BigDecimal rate;
+    private LocalDateTime created;
 }

@@ -18,6 +18,6 @@ public class Team {
 
     @ManyToOne
     @NotNull
-    private Category category;
+    private Sport sport;
 
 }

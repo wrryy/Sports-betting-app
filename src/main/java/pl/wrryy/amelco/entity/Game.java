@@ -19,12 +19,11 @@ public class Game {
     private List<Team> teams;
 
     @ManyToOne
-    private Category category;
+    private Sport sport;
 
     private int[] result;
     private LocalDateTime started;
     private LocalDateTime ended;
     private boolean active;
-
 
 }

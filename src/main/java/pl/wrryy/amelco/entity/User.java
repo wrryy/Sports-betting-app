@@ -30,12 +30,13 @@ public class User {
     private String lastName;
     @NotEmpty
     private String password;
-//    @ManyToMany(mappedBy = "users")
-//    private List<Bet> bets;
 
-    private BigDecimal walletBalance;
+//    @OneToMany(mappedBy = "user")
+//    private UserCouponBet userCouponBet;
+
     @ElementCollection
     private List<String> walletHistory;
+    private BigDecimal walletBalance;
 
     @ManyToMany
     private List<User> friends;

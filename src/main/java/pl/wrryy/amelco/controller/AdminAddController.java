@@ -43,7 +43,7 @@ public class AdminAddController {
         return gameService.findAll();
     }
     @ModelAttribute("categories")
-    public List<Category> getCategories() {
+    public List<Sport> getCategories() {
         return categoryService.findAll();
     }
     @ModelAttribute("teams")
@@ -92,11 +92,11 @@ public class AdminAddController {
     }
 
     @PostMapping("/category")
-    public String addCategory(@Valid Category category, BindingResult result) {
+    public String addCategory(@Valid Sport sport, BindingResult result) {
         if (result.hasErrors()) {
             return "admin/categories";
         } else {
-            categoryService.saveCategory(category);
+            categoryService.saveCategory(sport);
             return "redirect:/admin/categories";
         }
     }

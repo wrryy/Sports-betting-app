@@ -7,7 +7,6 @@ import pl.wrryy.amelco.entity.User;
 import pl.wrryy.amelco.repository.BetRepository;
 import pl.wrryy.amelco.repository.UserRepository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -25,25 +24,25 @@ public class BetServiceImpl implements BetService {
         return betRepository.findOne(id);
     }
 
-    @Override
-    public List<Bet> findByUser(User user) { return betRepository.findAllByUsers(user); }
+//    @Override
+//    public List<Bet> findByUser(User user) { return betRepository.findAllByUsers(user); }
 
-    @Override
-    public List<Bet> findByUsersName(String name) { return betRepository.findAllByUsersUserName(name); }
+//    @Override
+//    public List<Bet> findByUsersName(String name) { return betRepository.findAllByUsersUserName(name); }
 
-    @Override
-    public List<Bet> findByGame(Game game) { return betRepository.findAllByGames(game); }
+//    @Override
+//    public List<Bet> findByGame(Game game) { return betRepository.findAllByGames(game); }
 
     @Override
     public void saveBet(Bet bet) { betRepository.save(bet); }
 
     @Override
     public void betNewBet(Bet bet) throws Exception {
-        BigDecimal userBalance = bet.getUsers().get(0).getWalletBalance();
-        if(userBalance.compareTo(bet.getStake())==-1){
-            throw new Exception();
-        }
-        this.saveBet(bet);
+//        BigDecimal userBalance = bet().get(0).getWalletBalance();
+//        if(userBalance.compareTo(bet.getStake())==-1){
+//            throw new Exception();
+//        }
+//        this.saveBet(bet);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public void toggleActive(Bet bet) {
-        bet.setActive(!bet.isActive());
-        this.saveBet(bet);
+//        bet.setActive(!bet.isActive());
+//        this.saveBet(bet);
     }
 }

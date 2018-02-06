@@ -1,6 +1,6 @@
 package pl.wrryy.amelco.service;
 
-import pl.wrryy.amelco.entity.Category;
+import pl.wrryy.amelco.entity.Sport;
 import pl.wrryy.amelco.entity.Team;
 
 import java.util.List;
@@ -12,6 +12,6 @@ public interface TeamService {
     public void deleteTeam(Team team);
     public void deleteTeam(long id);
     public List<Team> findAll();
-    public List<Team> findTeamsByCategory(Category category);
-    public List<Team> findTeamsByCategoryName(String category);
+    public List<Team> findTeamsBySport(Sport sport);
+    public List<Team> findTeamsBySportName(String category);
 }

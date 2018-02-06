@@ -46,7 +46,7 @@
                 <span th:text="#{user.password}"></span><input type="password" th:field="*{password}"/>
             </div>
             <div> <span th:text="#{role}"></span> <select  th:field="*{roles}">
-                <option th:each="role: ${roles}" th:text="${role.name}" th:multiple="true" th:value="${role}"></option>
+                <option th:each="role: ${roles}" th:text="${role.name}" th:multiple="true" th:value="${role.id}"></option>
             </select></div>
             <p><input type="hidden" th:field="*{active}" value="true"/></p>
             <input type="submit" th:text="#{admin.add}"/>

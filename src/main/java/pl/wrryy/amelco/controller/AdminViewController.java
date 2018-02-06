@@ -46,7 +46,7 @@ public class AdminViewController {
         return gameService.findAll();
     }
     @ModelAttribute("categories")
-    public List<Category> getCategories() {
+    public List<Sport> getCategories() {
         return categoryService.findAll();
     }
     @ModelAttribute("teams")
@@ -85,7 +85,7 @@ public class AdminViewController {
 
     @RequestMapping("/categories")
     public String listCategories(ModelMap model, @SortDefault("id") Pageable pageable) {
-        model.addAttribute("category", new Category());
+        model.addAttribute("category", new Sport());
         return "admin/categories";
     }
     @RequestMapping("/bets")

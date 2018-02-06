@@ -2,7 +2,7 @@ package pl.wrryy.amelco.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.wrryy.amelco.entity.Category;
+import pl.wrryy.amelco.entity.Sport;
 import pl.wrryy.amelco.entity.Game;
 import pl.wrryy.amelco.entity.Team;
 
@@ -13,8 +13,8 @@ import java.util.List;
 public interface GameRepository extends JpaRepository<Game, Long> {
 
     public Game findAllByTeams(Team team);
-    public List<Game> findByCategory(Category category);
-    public List<Game> findByCategory_Name(String category);
+    public List<Game> findBySport(Sport sport);
+    public List<Game> findBySport_Name(String sportName);
     public List<Game> findByStartedAfter(LocalDateTime date);
 
 

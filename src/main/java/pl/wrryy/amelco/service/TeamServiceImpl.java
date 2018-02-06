@@ -1,7 +1,7 @@
 package pl.wrryy.amelco.service;
 
 import org.springframework.stereotype.Service;
-import pl.wrryy.amelco.entity.Category;
+import pl.wrryy.amelco.entity.Sport;
 import pl.wrryy.amelco.entity.Team;
 import pl.wrryy.amelco.repository.TeamRepository;
 
@@ -41,11 +41,11 @@ public class TeamServiceImpl implements TeamService {
     public List<Team> findAll() {return teamRepository.findAll();}
 
     @Override
-    public List<Team> findTeamsByCategory(Category category) { return teamRepository.findTeamByCategory(category);
+    public List<Team> findTeamsBySport(Sport sport) { return teamRepository.findTeamBySport(sport);
     }
 
     @Override
-    public List<Team> findTeamsByCategoryName(String category) { return teamRepository.findTeamByCategory_Name(category);}
+    public List<Team> findTeamsBySportName(String category) { return teamRepository.findTeamBySport_Name(category);}
 
 }
 
