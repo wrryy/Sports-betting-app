@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:sd="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<link href="../moje/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
+    <title th:text="#{page.title}"></title>
+</head>
+<body>
+<!--<span sec:authorize="isAuthenticated()">-->
+<!--<form th:action="@{/logout}" method="post">-->
+<!--<input type="submit" value="Wyloguj"/>-->
+<!--</form></span>-->
+<div class="menu">
+    <a th:href="@{/admin/users}" th:text="#{admin.menu.users}">Users</a>
+    <a th:href="@{/admin/teams}" th:text="#{admin.menu.teams}">Teams</a>
+    <strong><a th:href="@{/admin/games}" th:text="#{admin.menu.games}">Games</a></strong>
+    <a th:href="@{/admin/categories}" th:text="#{admin.menu.categories}">Categories</a>
+    <a th:href="@{/admin/roles}" th:text="#{admin.menu.roles}">Roles</a>
+    <a th:href="@{/admin/bets}" th:text="#{admin.menu.bets}">Bets</a>
+</div>
+
+<div class=" div column-form">
+    <div class="bb">
+        <form action="#" th:action="@{/admin/add/game}" method="post" th:object="${game}">
+            <h3 th:text="#{admin.add.game}"></h3>
+            <div>
+            <div><span th:text="#{team}">Team</span> <select th:field="*{teams}">
+                <option th:each="team: ${teams}" th:value="${team}" th:text="${team.name}" th:multiple="true"></option>
+            </select></div>
+            </div>
+            <div> <span th:text="#{category}">Category</span><select th:field="*{category}">
+                <option th:each="category: ${categories}" th:value="${category}" th:text="${category.name}"></option>
+            </select></div>
+            <div> <span th:text="#{game.started}">Category</span>
+                <input type="datetime-local" th:field="*{started}"></div>
+            <div> <span th:text="#{game.ended}">Category</span>
+                <input type="datetime-local" th:field="*{ended}"></div>
+            <p><input type="hidden" th:field="*{active}" value="true"/></p>
+            <input type="submit" th:text="#{admin.add}"/>
+        </form>
+    </div>
+</div>
+<div class="div column-list">
+    <div class="bb">
+        <table class="table table-striped table-hover">
+            <tr>
+                <td><strong>Lp.</strong></td>
+                <th><a class="sorted" sd:pagination-sort="teams" th:text="#{game.teams}"></a></th>
+                <th><a class="sorted" sd:pagination-sort="category" th:text="#{category}"></a></th>
+                <th><a class="sorted" sd:pagination-sort="result" th:text="#{game.result}"></a></th>
+                <th><a class="sorted" sd:pagination-sort="started" th:text="#{game.started}"></a></th>
+                <th><a class="sorted" sd:pagination-sort="ended" th:text="#{game.ended}"></a></th>
+                <th><a class="sorted" sd:pagination-sort="active" th:text="#{active}"></a></th>
+                <td><strong th:text="#{admin.action}"></strong></td>
+            </tr>
+            <tr th:each="game,iter: ${games}">
+                <td th:text="${iter.count}"></td>
+                <td><span th:each="team: ${game.teams}" th:text="|${team.name} ,|"></span></td>
+                <td th:text="${game.category}"></td>
+                <td th:text="${game.result}"></td>
+                <td th:text="${game.started}"></td>
+                <td th:text="${game.ended}"></td>
+                <td> <span th:text="${game.active}"></span>
+                    <a th:text="#{admin.action.change}" th:href="@{/admin/gameChangeActive(id=${game.id})}"></a></td>
+                <td><a th:text="#{admin.action.delete}" th:href="@{/admin/delete/game(id=${game.id})}"></a>
+                </td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col-sm-6">
+                <div sd:pagination-summary="">info</div>
+            </div>
+            <div class="col-sm-6">
+                <nav class="pull-right">
+                    <ul class="pagination" sd:pagination="full">
+                        <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+                <div class="btn-group dropup" sd:page-size-selector="dropdown"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

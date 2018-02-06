@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{page.title}"></title>
+</head>
+<body>
+<h1 th:text="#{page.login.head}">Custom login page</h1>
+<form th:action="@{/login}" method="post">
+    <div><span th:text="#{page.login.nameoremail}">User Name or email: </span><label> <input type="text" name="username"/> </label></div>
+    <div><span th:text="#{page.login.password}"> Password: </span> <label> <input type="password" name="password"/> </label></div>
+    <div><input type="submit" th:value="#{page.login.login}"/></div>
+</form>
+</body>
+</html>
