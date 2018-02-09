@@ -27,10 +27,17 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void saveTeam(Team team) { teamRepository.save(team); }
+    public void saveTeam(Team team) {
+        Team inDb = teamRepository.findTeamByName(team.getName());
+        if (inDb == null || inDb.getSport() != team.getSport()) {
+            teamRepository.save(team);
+        }
+    }
 
     @Override
-    public void deleteTeam(Team team) { teamRepository.delete(team); }
+    public void deleteTeam(Team team) {
+        teamRepository.delete(team);
+    }
 
     @Override
     public void deleteTeam(long id) {
@@ -38,14 +45,19 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<Team> findAll() {return teamRepository.findAll();}
-
-    @Override
-    public List<Team> findTeamsBySport(Sport sport) { return teamRepository.findTeamBySport(sport);
+    public List<Team> findAll() {
+        return teamRepository.findAll();
     }
 
     @Override
-    public List<Team> findTeamsBySportName(String category) { return teamRepository.findTeamBySport_Name(category);}
+    public List<Team> findTeamsBySport(Sport sport) {
+        return teamRepository.findTeamBySport(sport);
+    }
+
+    @Override
+    public List<Team> findTeamsBySportName(String category) {
+        return teamRepository.findTeamBySport_Name(category);
+    }
 
 }
 

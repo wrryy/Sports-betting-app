@@ -7,10 +7,10 @@ import pl.wrryy.amelco.repository.SportRepository;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class SportServiceImpl implements SportService {
     private SportRepository sportRepository;
 
-    public CategoryServiceImpl(SportRepository sportRepository) {
+    public SportServiceImpl(SportRepository sportRepository) {
         this.sportRepository = sportRepository;
     }
 
@@ -20,16 +20,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Sport findByName(String name) { return sportRepository.findByName(name); }
+    public Sport findByName(String name) {
+        return sportRepository.findByName(name); }
 
     @Override
-    public void saveCategory(Sport sport) { sportRepository.save(sport); }
+    public void saveSport(Sport sport) { sportRepository.save(sport); }
 
     @Override
-    public void deleteCategory(Sport sport) { sportRepository.delete(sport); }
+    public void deleteSport(Sport sport) { sportRepository.delete(sport); }
 
     @Override
-    public void deleteCategory(long id) {
+    public void deleteSport(long id) {
         sportRepository.delete(id);
     }
 

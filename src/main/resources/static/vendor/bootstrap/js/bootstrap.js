@@ -3,6 +3,15 @@
  * Copyright 2011-2016 Twitter, Inc.
  * Licensed under the MIT license
  */
+$(document).ready(function(){
+    $("button").click(function(){
+        $.getJSON("demo_ajax_json.js", function(result){
+            $.each(result, function(i, field){
+                $("div").append(field + " ");
+            });
+        });
+    });
+});
 
 if (typeof jQuery === 'undefined') {
   throw new Error('Bootstrap\'s JavaScript requires jQuery')

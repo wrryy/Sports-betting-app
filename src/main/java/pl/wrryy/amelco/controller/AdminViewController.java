@@ -20,16 +20,16 @@ public class AdminViewController {
     private RoleService roleService;
     private GameService gameService;
     private TeamService teamService;
-    private CategoryService categoryService;
+    private SportService sportService;
     private BetService betService;
 
     public AdminViewController(UserService userService, RoleService roleService, GameService gameService,
-                               TeamService teamService, CategoryService categoryService, BetService betService) {
+                               TeamService teamService, SportService sportService, BetService betService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
         this.teamService = teamService;
-        this.categoryService = categoryService;
+        this.sportService = sportService;
         this.betService = betService;
     }
 
@@ -45,18 +45,13 @@ public class AdminViewController {
     public List<Game> getGames() {
         return gameService.findAll();
     }
-    @ModelAttribute("categories")
-    public List<Sport> getCategories() {
-        return categoryService.findAll();
+    @ModelAttribute("sports")
+    public List<Sport> getSports() {
+        return sportService.findAll();
     }
     @ModelAttribute("teams")
     public List<Team> getTeams() {
         return teamService.findAll();
-    }
-    @ModelAttribute("bets")
-    public List<Bet> getBets() {
-        
-        return betService.findAll();
     }
 
     @RequestMapping("/users")
@@ -85,13 +80,8 @@ public class AdminViewController {
 
     @RequestMapping("/categories")
     public String listCategories(ModelMap model, @SortDefault("id") Pageable pageable) {
-        model.addAttribute("category", new Sport());
+        model.addAttribute("sport", new Sport());
         return "admin/categories";
-    }
-    @RequestMapping("/bets")
-    public String listBets(ModelMap model, @SortDefault("id") Pageable pageable) {
-//        model.addAttribute("bet", new Bet());
-        return "admin/bets";
     }
 
 

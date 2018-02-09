@@ -5,4 +5,5 @@ import pl.wrryy.amelco.entity.BetCategory;
 
 public interface BetCategoryRepository extends JpaRepository<BetCategory, Long> {
 
+    public BetCategory findByName(String name);
 }

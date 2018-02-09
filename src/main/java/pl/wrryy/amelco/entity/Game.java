@@ -15,7 +15,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Team> teams;
 
     @ManyToOne
@@ -25,5 +25,12 @@ public class Game {
     private LocalDateTime started;
     private LocalDateTime ended;
     private boolean active;
+
+    public String thatResult(){
+        return result[0]+ ":" + result[1];
+    }
+    public String thatTeams(){
+        return teams.get(0).getName()+ " - " + teams.get(1).getName();
+    }
 
 }

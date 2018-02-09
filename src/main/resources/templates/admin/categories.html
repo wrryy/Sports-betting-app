@@ -41,7 +41,7 @@
                 <th><a class="sorted" sd:pagination-sort="name" th:text="#{team.name}"></a></th>
                 <td><strong th:text="#{admin.action}"></strong></td>
             </tr>
-            <tr th:each="sport,iter: ${categories}">
+            <tr th:each="sport,iter: ${sports}">
                 <td th:text="${iter.count}"></td>
                 <td th:text="${sport.name}"></td>
                 <td><a th:text="#{admin.action.delete}" th:href="@{/admin/delete/sport(id=${sport.id})}"></a>

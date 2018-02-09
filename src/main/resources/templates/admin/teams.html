@@ -30,7 +30,7 @@
                 <span th:text="#{team.name}"></span><input type="text" th:field="*{name}"/>
             </div>
             <div> <span th:text="#{sport}">Sport</span><select th:field="*{sport}">
-                <option th:each="sport: ${categories}" th:value="${sport}" th:text="${sport.name}"></option>
+                <option th:each="sport: ${sports}" th:value="${sport}" th:text="${sport.name}"></option>
             </select></div>
             <input type="submit" th:text="#{admin.add}"/>
         </form>
@@ -43,21 +43,13 @@
                 <td><strong>Lp.</strong></td>
                 <th><a class="sorted" sd:pagination-sort="name" th:text="#{team.name}"></a></th>
                 <th><a class="sorted" sd:pagination-sort="sport" th:text="#{sport}"></a></th>
-                <th><a class="sorted" sd:pagination-sort="result" th:text="#{game.result}"></a></th>
-                <th><a class="sorted" sd:pagination-sort="started" th:text="#{game.started}"></a></th>
-                <th><a class="sorted" sd:pagination-sort="ended" th:text="#{game.ended}"></a></th>
                 <td><strong th:text="#{admin.action}"></strong></td>
             </tr>
-            <tr th:each="game,iter: ${games}">
+            <tr th:each="team,iter: ${teams}">
                 <td th:text="${iter.count}"></td>
-                <td><span th:each="team: ${game.teams}" th:text="|${team.name} ,|"></span></td>
-                </td>
-                <td th:text="${game.sport}"></td>
-                <td th:text="${game.result}"></td>
-                <td th:text="${game.started}"></td>
-                <td th:text="${game.ended}"></td>
-                <td><a th:text="#{admin.action.delete}" th:href="@{/admin/delete/team(id=${team.id})}"></a>
-                </td>
+                <td th:text="${team.name}"></td>
+                <td th:text="${team.sport.name}"></td>
+                <td><a th:text="#{admin.action.delete}" th:href="@{/admin/delete/team(id=${team.id})}"></a></td>
             </tr>
         </table>
         <div class="row">

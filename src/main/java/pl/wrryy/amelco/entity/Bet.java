@@ -25,6 +25,5 @@ public class Bet {
 
     @ManyToOne
     private Rate rate;
-
 //    private boolean active;
 }

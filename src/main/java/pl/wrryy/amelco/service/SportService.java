@@ -4,12 +4,12 @@ import pl.wrryy.amelco.entity.Sport;
 
 import java.util.List;
 
-public interface CategoryService {
+public interface SportService {
     public Sport findOne(long id);
     public Sport findByName(String name);
-    public void saveCategory(Sport sport);
-    public void deleteCategory(Sport sport);
-    public void deleteCategory(long id);
+    public void saveSport(Sport sport);
+    public void deleteSport(Sport sport);
+    public void deleteSport(long id);
     public List<Sport> findAll();
 
 }

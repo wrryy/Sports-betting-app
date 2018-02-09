@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.wrryy.amelco.entity.User;
-import pl.wrryy.amelco.service.RoleService;
 import pl.wrryy.amelco.service.UserService;
 import pl.wrryy.amelco.system.CurrentUser;
 
@@ -21,12 +20,8 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
-    private RoleService roleService;
 
-    public UserController(UserService userService, RoleService roleService) {
-        this.userService = userService;
-        this.roleService = roleService;
-    }
+    public UserController(UserService userService) { this.userService = userService; }
 
     @GetMapping("/edit")
     public String editUser(Model model) {

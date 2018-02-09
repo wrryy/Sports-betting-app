@@ -13,16 +13,19 @@ public class AdminDeleteController {
     private RoleService roleService;
     private GameService gameService;
     private TeamService teamService;
-    private CategoryService categoryService;
+    private SportService sportService;
     private BetService betService;
+    private BetCategoryService betCategoryService;
 
-    public AdminDeleteController(UserService userService, RoleService roleService, GameService gameService, TeamService teamService, CategoryService categoryService, BetService betService) {
+    public AdminDeleteController(UserService userService, RoleService roleService, GameService gameService, TeamService teamService,
+                                 SportService sportService, BetService betService, BetCategoryService betCategoryService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
         this.teamService = teamService;
-        this.categoryService = categoryService;
+        this.sportService = sportService;
         this.betService = betService;
+        this.betCategoryService = betCategoryService;
     }
 
     @GetMapping("/user")
@@ -47,13 +50,18 @@ public class AdminDeleteController {
     }
     @GetMapping("/category")
     public String deleteCategory(@RequestParam long id){
-        categoryService.deleteCategory(id);
+        sportService.deleteSport(id);
         return "redirect:/admin/categories";
     }
     @GetMapping("/role")
     public String deleteRole(@RequestParam int id){
         roleService.deleteRole(id);
         return "redirect:/admin/roles";
+    }
+    @GetMapping("/betCat")
+    public String deleteBetCat(@RequestParam long id){
+        betCategoryService.deleteBetCategory(id);
+        return "redirect:/admin/betCats";
     }
 
 
