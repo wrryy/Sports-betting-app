@@ -14,8 +14,8 @@ public interface UserService {
     public void deleteUser(User user);
     public void deleteUser(long id);
     public List<User> findAll();
-    public void walletWithdraw(BigDecimal amount);
-    public void walletDeposit(BigDecimal amount);
+    public void walletWithdraw(User user, BigDecimal amount);
+    public void walletDeposit(User user, BigDecimal amount);
     public void walletAddHistoryEvent(User user, String event);
     public void toggleActive(User user);
     public void friendAdd(User user);

@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-        <head>
+<head>
 
-            <meta charset="utf-8" />
-            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta name="description" content="" />
-            <meta name="author" content="" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
-            <title th:text="#{page.title}"></title>
+    <title th:text="#{page.title}"></title>
 
-            <!-- Bootstrap Core CSS -->
-            <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 
-            <!-- MetisMenu CSS -->
-            <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet" />
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet"/>
 
-            <!-- Custom CSS -->
-            <link href="../dist/css/sb-admin-2.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet"/>
 
-            <!-- Morris Charts CSS -->
-            <link href="../vendor/morrisjs/morris.css" rel="stylesheet" />
+    <!-- Morris Charts CSS -->
+    <link href="../vendor/morrisjs/morris.css" rel="stylesheet"/>
 
-            <!-- Custom Fonts -->
-            <link href="../vendor/font-awesome/css/font-awesome.min.css"
-                  rel="stylesheet" type="text/css" />
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css"
+          rel="stylesheet" type="text/css"/>
 
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        </head>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+</head>
 
 <body>
 
@@ -62,7 +62,8 @@
 									</span>
                         </div>
                         <div>Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Pellentesque eleifend...</div>
+                            elit. Pellentesque eleifend...
+                        </div>
                     </a></li>
                     <li class="divider"></li>
                     <li><a href="#">
@@ -72,7 +73,8 @@
 									</span>
                         </div>
                         <div>Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Pellentesque eleifend...</div>
+                            elit. Pellentesque eleifend...
+                        </div>
                     </a></li>
                     <li class="divider"></li>
                     <li><a href="#">
@@ -82,7 +84,8 @@
 									</span>
                         </div>
                         <div>Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Pellentesque eleifend...</div>
+                            elit. Pellentesque eleifend...
+                        </div>
                     </a></li>
                     <li class="divider"></li>
                     <li><a class="text-center" href="#"> <strong>Read
@@ -219,9 +222,11 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
-                    <li><form th:action="@{/logout}" method="post">
-                        <input type="submit" value="Wyloguj"/>
-                    </form></li>
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <input type="submit" value="Wyloguj"/>
+                        </form>
+                    </li>
                     <li><a href="user/login.html"><i class="fa fa-sign-out fa-fw"></i>
                         Logout</a></li>
                 </ul> <!-- /.dropdown-user --></li>
@@ -234,7 +239,7 @@
                 <ul class="nav" id="side-menu">
                     <li class="sidebar-search">
                         <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search..." />
+                            <input type="text" class="form-control" placeholder="Search..."/>
                             <span class="input-group-btn">
 									<button class="btn btn-default" type="button">
 										<i class="fa fa-search"></i>
@@ -244,7 +249,7 @@
                     </li>
                     <li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i>
                         <span th:text="#{page.title.today}"></span></a></li>
-                    <li><a href="#"><i class="fa fa-bar-chart-o fa-fw" ></i>
+                    <li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>
                         <span th:text="#{page.title.history}"></span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li th:each="sport:${sports}"><a href="flot.html" th:text="${sport.name}"></a></li>
@@ -295,70 +300,70 @@
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-primary">
                     <a href="#">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9">
-                                <div class="huge">Sport</div>
-                                <div></div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9">
+                                    <div class="huge">Sport</div>
+                                    <div></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-green">
                     <a href="#">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge">Live</div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Live</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-yellow">
                     <a href="#">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge">Live</div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Live</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-red">
-                    <a href="#">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-5x"></i>
-                            </div>
-                            <div>
-                                <div class="huge">Account</div>
+                    <a href="/user/account">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-5x"></i>
+                                </div>
+                                <div>
+                                    <div class="huge">Account</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </a>
                 </div>
             </div>
         </div>
-       <div class="row">
+        <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header" th:text="#{page.title.mostpopular}">Most popular games</h1>
             </div>
@@ -377,13 +382,14 @@
                                     <span th:text="#{sports}"></span> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
-                                    <li th:each="sport: ${sports}" ><a th:text="${sport.name}"></a></li>
+                                    <li th:each="sport: ${sports}"><a th:text="${sport.name}"></a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
+                        dsd
                         <div id="morris-area-chart"></div>
                     </div>
                     <!-- /.panel-body -->
@@ -504,7 +510,8 @@
                                         <h4 class="timeline-title">Lorem ipsum dolor</h4>
                                         <p>
                                             <small class="text-muted"><i class="fa fa-clock-o"></i>
-                                                11 hours ago via Twitter</small>
+                                                11 hours ago via Twitter
+                                            </small>
                                         </p>
                                     </div>
                                     <div class="timeline-body">
@@ -637,9 +644,9 @@
             <div class="col-lg-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                    <span th:text="#{page.title.userbets}"></span>
+                        <span th:text="#{page.title.userbets}"></span>
                     </div>
-                    <i class="fa fa-fw" ></i>
+                    <i class="fa fa-fw"></i>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="list-group">
@@ -727,73 +734,81 @@
                         <ul class="chat">
                             <li class="left clearfix"><span class="chat-img pull-left">
 										<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar"
-                                             class="img-circle" />
+                                             class="img-circle"/>
 								</span>
                                 <div class="chat-body clearfix">
                                     <div class="header">
-                                        <strong class="primary-font">Jack Sparrow</strong> <small
-                                            class="pull-right text-muted"> <i
-                                            class="fa fa-clock-o fa-fw"></i> 12 mins ago
-                                    </small>
+                                        <strong class="primary-font">Jack Sparrow</strong>
+                                        <small
+                                                class="pull-right text-muted"><i
+                                                class="fa fa-clock-o fa-fw"></i> 12 mins ago
+                                        </small>
                                     </div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing
                                         elit. Curabitur bibendum ornare dolor, quis ullamcorper
                                         ligula sodales.</p>
-                                </div></li>
+                                </div>
+                            </li>
                             <li class="right clearfix"><span
                                     class="chat-img pull-right"> <img
                                     src="http://placehold.it/50/FA6F57/fff" alt="User Avatar"
-                                    class="img-circle" />
+                                    class="img-circle"/>
 								</span>
                                 <div class="chat-body clearfix">
                                     <div class="header">
-                                        <small class=" text-muted"> <i
+                                        <small class=" text-muted"><i
                                                 class="fa fa-clock-o fa-fw"></i> 13 mins ago
-                                        </small> <strong class="pull-right primary-font">Bhaumik
-                                        Patel</strong>
+                                        </small>
+                                        <strong class="pull-right primary-font">Bhaumik
+                                            Patel</strong>
                                     </div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing
                                         elit. Curabitur bibendum ornare dolor, quis ullamcorper
                                         ligula sodales.</p>
-                                </div></li>
+                                </div>
+                            </li>
                             <li class="left clearfix"><span class="chat-img pull-left">
 										<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar"
-                                             class="img-circle" />
+                                             class="img-circle"/>
 								</span>
                                 <div class="chat-body clearfix">
                                     <div class="header">
-                                        <strong class="primary-font">Jack Sparrow</strong> <small
-                                            class="pull-right text-muted"> <i
-                                            class="fa fa-clock-o fa-fw"></i> 14 mins ago
-                                    </small>
+                                        <strong class="primary-font">Jack Sparrow</strong>
+                                        <small
+                                                class="pull-right text-muted"><i
+                                                class="fa fa-clock-o fa-fw"></i> 14 mins ago
+                                        </small>
                                     </div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing
                                         elit. Curabitur bibendum ornare dolor, quis ullamcorper
                                         ligula sodales.</p>
-                                </div></li>
+                                </div>
+                            </li>
                             <li class="right clearfix"><span
                                     class="chat-img pull-right"> <img
                                     src="http://placehold.it/50/FA6F57/fff" alt="User Avatar"
-                                    class="img-circle" />
+                                    class="img-circle"/>
 								</span>
                                 <div class="chat-body clearfix">
                                     <div class="header">
-                                        <small class=" text-muted"> <i
+                                        <small class=" text-muted"><i
                                                 class="fa fa-clock-o fa-fw"></i> 15 mins ago
-                                        </small> <strong class="pull-right primary-font">Bhaumik
-                                        Patel</strong>
+                                        </small>
+                                        <strong class="pull-right primary-font">Bhaumik
+                                            Patel</strong>
                                     </div>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing
                                         elit. Curabitur bibendum ornare dolor, quis ullamcorper
                                         ligula sodales.</p>
-                                </div></li>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                     <!-- /.panel-body -->
                     <div class="panel-footer">
                         <div class="input-group">
                             <input id="btn-input" type="text" class="form-control input-sm"
-                                   placeholder="Type your message here..." /> <span
+                                   placeholder="Type your message here..."/> <span
                                 class="input-group-btn">
 									<button class="btn btn-warning btn-sm" id="btn-chat">
 										Send</button>
@@ -804,7 +819,7 @@
                 </div>
                 <!-- /.panel .chat-panel -->
             </div>
-             <!--/.col-lg-4-->
+            <!--/.col-lg-4-->
         </div>
         <!-- /.row -->
     </div>

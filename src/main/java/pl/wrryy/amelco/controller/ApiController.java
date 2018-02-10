@@ -89,14 +89,11 @@ public class ApiController {
                 teamService.saveTeam(team2);
                 Long epochStart = (long) match.get("start");
                 LocalDateTime started = LocalDateTime.ofInstant(Instant.ofEpochMilli(epochStart), ZoneId.systemDefault());
-                Long epochEnd = (long) match.get("start");
-                LocalDateTime ended = LocalDateTime.ofInstant(Instant.ofEpochMilli(epochEnd), ZoneId.systemDefault());
 
                 game.setResult(goals);
                 game.setTeams(gameTeams);
                 game.setSport(sport);
                 game.setStarted(started);
-                game.setStarted(ended);
                 game.setActive(false);
                 gameService.saveGame(game);
             }

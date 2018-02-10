@@ -38,7 +38,7 @@ public class User {
     private List<String> walletHistory;
     private BigDecimal walletBalance;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> friends;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

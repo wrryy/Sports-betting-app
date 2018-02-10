@@ -23,7 +23,6 @@ public class Game {
 
     private int[] result;
     private LocalDateTime started;
-    private LocalDateTime ended;
     private boolean active;
 
     public String thatResult(){

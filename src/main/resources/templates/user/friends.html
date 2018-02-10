@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layoutUser">
+<section layout:fragment="content">
+    <h3 th:text="#{page.userpage.sendmessage}"></h3>
+    <form action="#" th:action="@{/user/send}" method="post">
+        <div>
+            <span th:text="#{page.userpage.friend}">Users</span>
+            <select>
+                <option th:each="user: ${users}" name="touser" th:value="${user}" th:text="${user.userName}"></option>
+            </select>
+        </div>
+        <div>
+            <!--<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>-->
+            <input type="text" name="text"/>
+        </div>
+        <input type="submit" th:text="#{send}"/>
+    </form>
+    <form action="#" th:action="@{/user/searchFriend}" method="post">
+        <div>
+            <!--<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>-->
+            <!--<span th:text="${message != null} ? ${message} : ''"></span>-->
+            <span th:text="#{search}"></span><input type="text" name="username"/>
+        </div>
+        <input type="submit" th:text="#{searchbutton}"/>
+    </form>
+    <ul>
+        <li th:each="friend: ${user.friends}" th:text="${friend.userName}"></li><a th:href="@{/user/deleteFriend(id=${friend.id})}" th:text="#{delete}"></a>
+    </ul>
+</section>
+</html>

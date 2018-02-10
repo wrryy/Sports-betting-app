@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layoutUser">
+
+<section layout:fragment="content">
+    <h3 th:text="#{page.userpage.managewallet}"></h3>
+    <span th:text="${user.walletBalance}"></span>
+    <form action="#" th:action="@{/user/walletWithdraw}" method="post">
+        <div>
+            <span th:text="#{withdraw}"></span>
+            <span th:text="${message}"></span>
+            <input type="number" step="0.01" th:max="${user.walletBalance}" th:min="0.01" name="value"/>
+        </div>
+        <input type="submit" th:text="#{withdraw}"/>
+    </form>
+    <form action="#" th:action="@{/user/walletDeposit}" method="post">
+        <div>
+            <span th:text="#{deposit}"></span>
+            <input type="number" step="0.01" th:min="0.01" name="value"/>
+        </div>
+        <input type="submit" th:text="#{deposit}"/>
+    </form>
+    <ul>
+        <li th:each="rec: ${user.walletHistory}" th:text="${rec}"></li>
+    </ul>
+</section>
+
+</html>

@@ -63,21 +63,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void walletWithdraw(BigDecimal amount) {
-//        User loggedUser = this.getLoggedUser();
-//        loggedUser.setWalletBalance(loggedUser.getWalletBalance().subtract(amount));
-//        String event = "Withdrew " + amount.toString()+ " .";
-//        walletAddHistoryEvent(loggedUser, event);
-//        this.saveUser(loggedUser);
+    public void walletWithdraw(User user, BigDecimal amount) {
+        user.setWalletBalance(user.getWalletBalance().subtract(amount));
+        String event = "Withdrew " + amount.toString()+ " .";
+        walletAddHistoryEvent(user, event);
+        this.saveUser(user);
     }
 
     @Override
-    public void walletDeposit(BigDecimal amount) {
-//        User loggedUser = this.getLoggedUser();
-//        loggedUser.setWalletBalance(loggedUser.getWalletBalance().add(amount));
-//        String event = "Deposited " + amount.toString()+ " .";
-//        walletAddHistoryEvent(loggedUser, event);
-//        this.saveUser(loggedUser);
+    public void walletDeposit(User user, BigDecimal amount) {
+        user.setWalletBalance(user.getWalletBalance().add(amount));
+        String event = "Deposited " + amount.toString()+ " .";
+        walletAddHistoryEvent(user, event);
+        this.saveUser(user);
     }
 
     @Override
