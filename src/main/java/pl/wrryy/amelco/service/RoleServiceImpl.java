@@ -1,5 +1,6 @@
 package pl.wrryy.amelco.service;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.wrryy.amelco.entity.Role;
 import pl.wrryy.amelco.repository.RoleRepository;
@@ -36,6 +37,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> findAll() {
+        return roleRepository.findAll();}
+    @Override
+    public List<Role> findAll(Pageable pageable) {
         return roleRepository.findAll();}
 
     @Override

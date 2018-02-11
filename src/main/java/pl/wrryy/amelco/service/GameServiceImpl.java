@@ -1,7 +1,8 @@
 package pl.wrryy.amelco.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pl.wrryy.amelco.entity.Sport;
 import pl.wrryy.amelco.entity.Game;
 import pl.wrryy.amelco.entity.Team;
 import pl.wrryy.amelco.repository.GameRepository;
@@ -37,13 +38,19 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Game> findAll() { return gameRepository.findAll(); }
+    public Page<Game> findAll(Pageable pageable) {
+        return gameRepository.findAll(pageable);
+    }
 
-    @Override
-    public List<Game> findGamesByCategory(Sport sport) { return gameRepository.findBySport(sport); }
-
-    @Override
-    public List<Game> findGamesByCategoryName(String category) { return gameRepository.findBySport_Name(category); }
+//    @Override
+//    public Page<Game> findGamesByCategory(Sport sport) {
+//        return null;
+//    }
+//
+//    @Override
+//    public Page<Game> findGamesByCategoryName(String category) {
+//        return null;
+//    }
 
     @Override
     public List<Game> findGamesByDate(LocalDateTime date) { return gameRepository.findByStartedAfter(date); }

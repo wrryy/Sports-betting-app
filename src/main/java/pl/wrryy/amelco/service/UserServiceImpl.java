@@ -38,8 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setActive(true);
         userRepository.save(user);
     }
 
@@ -55,7 +53,9 @@ public class UserServiceImpl implements UserService {
     public void registerUser(User user) {
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        user.setWalletBalance(BigDecimal.ZERO);
+        user.setWalletBalance(BigDecimal.valueOf(100));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setActive(true);
         this.saveUser(user);
     }
     public List<User> findAll(){
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void walletWithdraw(User user, BigDecimal amount) {
         user.setWalletBalance(user.getWalletBalance().subtract(amount));
-        String event = "Withdrew " + amount.toString()+ " .";
+        String event = "Withdrew " + amount.toString()+ ".";
         walletAddHistoryEvent(user, event);
         this.saveUser(user);
     }
@@ -73,15 +73,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void walletDeposit(User user, BigDecimal amount) {
         user.setWalletBalance(user.getWalletBalance().add(amount));
-        String event = "Deposited " + amount.toString()+ " .";
+        String event = "Deposited " + amount.toString()+ ".";
         walletAddHistoryEvent(user, event);
         this.saveUser(user);
     }
 
     @Override
     public void walletAddHistoryEvent(User user, String event) {
-        List<String> walletHistory = user.getWalletHistory();
-        walletHistory.add(event);
+//        List<String> walletHistory = user.getWalletHistory();
+//        walletHistory.add(event);
     }
 
     @Override
@@ -90,18 +90,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void friendAdd(User user) {
-//        User loggedUser = this.getLoggedUser();
-//        List<User> friends = loggedUser.getFriends();
-//        friends.add(user);
-//        loggedUser.setFriends(friends);
+    public void friendAdd(User loggedUser, User friendToAdd) {
+        List<User> friends = loggedUser.getFriends();
+        friends.add(friendToAdd);
+        loggedUser.setFriends(friends);
     }
 
     @Override
-    public void friendRemove(User user) {
-//        User loggedUser = this.getLoggedUser();
-//        List<User> friends = loggedUser.getFriends();
-//        friends.remove(user);
-//        loggedUser.setFriends(friends);
+    public void friendRemove(User loggedUser, User friendToRemove) {
+        List<User> friends = loggedUser.getFriends();
+        friends.remove(friendToRemove);
+        loggedUser.setFriends(friends);
     }
+
 }

@@ -36,10 +36,10 @@ public class HomeController {
     public List<User> getUsers() {
         return userService.findAll();
     }
-    @ModelAttribute("games")
-    public List<Game> getGames() {
-        return gameService.findAll();
-    }
+//    @ModelAttribute("games")
+//    public List<Game> getGames() {
+//        return gameService.findAll();
+//    }
     @ModelAttribute("sports")
     public List<Sport> getSports() {
         return sportService.findAll();

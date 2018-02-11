@@ -2,12 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layoutUser">
 <section layout:fragment="content">
-    <h3 th:text="#{page.userpage.sendmessage}"></h3>
-    <form action="#" th:action="@{/user/send}" method="post">
+    <h4 th:text="#{page.userpage.sendmessage}"></h4>
+    <form action="#" th:action="@{/user/sendMessage}" method="post">
         <div>
             <span th:text="#{page.userpage.friend}">Users</span>
             <select>
-                <option th:each="user: ${users}" name="touser" th:value="${user}" th:text="${user.userName}"></option>
+                <option th:each="friend: ${user.friends}" name="touser" th:value="${friend}"
+                        th:text="${friend.userName}"></option>
             </select>
         </div>
         <div>
@@ -16,16 +17,20 @@
         </div>
         <input type="submit" th:text="#{send}"/>
     </form>
-    <form action="#" th:action="@{/user/searchFriend}" method="post">
+    <hr>
+    <h4 th:text="#{page.userpage.searchfriend}"></h4>
+    <form action="#" th:action="@{/user/addFriend}" method="post">
+        <span th:text="${message != null} ? ${message} : ''"></span>
+        <span th:text="#{search}"></span><input type="text" name="username"/>
         <div>
-            <!--<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>-->
-            <!--<span th:text="${message != null} ? ${message} : ''"></span>-->
-            <span th:text="#{search}"></span><input type="text" name="username"/>
+            <input type="submit" th:text="#{searchbutton}"/>
         </div>
-        <input type="submit" th:text="#{searchbutton}"/>
     </form>
     <ul>
-        <li th:each="friend: ${user.friends}" th:text="${friend.userName}"></li><a th:href="@{/user/deleteFriend(id=${friend.id})}" th:text="#{delete}"></a>
+        <li th:each="friend: ${user.friends}">
+            <span th:text="${friend.userName}"></span>
+            <a th:href="@{/user/deleteFriend(id=${friend.id})}" th:text="#{delete}"></a>
+        </li>
     </ul>
 </section>
 </html>

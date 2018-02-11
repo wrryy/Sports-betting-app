@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -32,4 +33,5 @@ public class Game {
         return teams.get(0).getName()+ " - " + teams.get(1).getName();
     }
 
+        public String getStartedd() { return Arrays.toString(started.toString().split("T")); }
 }

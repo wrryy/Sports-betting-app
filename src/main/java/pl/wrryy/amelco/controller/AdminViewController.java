@@ -33,26 +33,25 @@ public class AdminViewController {
         this.betService = betService;
     }
 
-    @ModelAttribute("roles")
-    public List<Role> getRoles() {
-        return roleService.findAll();
-    }
-    @ModelAttribute("users")
-    public List<User> getUsers() {
-        return userService.findAll();
-    }
-    @ModelAttribute("games")
-    public List<Game> getGames() {
-        return gameService.findAll();
-    }
+//    @ModelAttribute("roles")
+//    public List<Role> getRoles(@SortDefault("id") Pageable pageable) {
+//        return roleService.findAll(pageable);
+//    }
+//    @ModelAttribute("users")
+//    public List<User> getUsers(@SortDefault("id") Pageable pageable) {
+//        return userService.findAll(pageable);
+//    }
+//    @ModelAttribute("games")
+//    public Page<Game> getGames(@SortDefault("id") Pageable pageable) {
+//        return gameService.findAll(pageable);
+//    }
     @ModelAttribute("sports")
-    public List<Sport> getSports() {
-        return sportService.findAll();
-    }
-    @ModelAttribute("teams")
-    public List<Team> getTeams() {
-        return teamService.findAll();
-    }
+    public List<Sport> getSports(@SortDefault("id") Pageable pageable) {
+        return sportService.findAll(); }
+//    @ModelAttribute("teams")
+//    public List<Team> getTeams(@SortDefault("id") Pageable pageable) {
+//        return teamService.findAll(pageable);
+//    }
 
     @RequestMapping("/users")
     public String listUsers(ModelMap model, @SortDefault("id") Pageable pageable) {
@@ -68,6 +67,7 @@ public class AdminViewController {
 
     @RequestMapping("/games")
     public String listGames(ModelMap model, @SortDefault("id") Pageable pageable) {
+        model.addAttribute("games", gameService.findAll(pageable));
         model.addAttribute("game", new Game());
         return "admin/games";
     }

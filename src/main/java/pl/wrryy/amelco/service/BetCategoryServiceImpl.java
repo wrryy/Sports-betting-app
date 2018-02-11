@@ -1,5 +1,7 @@
 package pl.wrryy.amelco.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.wrryy.amelco.entity.BetCategory;
 import pl.wrryy.amelco.repository.BetCategoryRepository;
@@ -24,4 +26,6 @@ public class BetCategoryServiceImpl implements BetCategoryService {
 
     @Override
     public List<BetCategory> findAll() { return betCategoryRepository.findAll(); }
+    @Override
+    public Page findAll(Pageable pageable) { return betCategoryRepository.findAll(pageable); }
 }

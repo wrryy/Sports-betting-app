@@ -31,11 +31,8 @@ public class User {
     @NotEmpty
     private String password;
 
-//    @OneToMany(mappedBy = "user")
-//    private UserCouponBet userCouponBet;
-
-    @ElementCollection
-    private List<String> walletHistory;
+    @OneToMany(mappedBy = "user")
+    private List<WalletEvent> walletHistory;
     private BigDecimal walletBalance;
 
     @ManyToMany(fetch = FetchType.EAGER)

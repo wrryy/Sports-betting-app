@@ -6,17 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.wrryy.amelco.entity.Role;
-import pl.wrryy.amelco.repository.RoleRepository;
 import pl.wrryy.amelco.entity.User;
+import pl.wrryy.amelco.repository.RoleRepository;
 import pl.wrryy.amelco.service.UserService;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashSet;
 
 import static pl.wrryy.amelco.utils.MessageHelper.addSuccessAttribute;
 
@@ -51,18 +46,18 @@ public class LoginController {
             return "index";
         }
     }
-    @RequestMapping("/adduser")
-    @ResponseBody
-    public String addAdmin(){
-        User user = new User();
-        user.setPassword("admin");
-        user.setUserName("admin");
-        user.setEmail("admin@email.com");
-        user.setActive(true);
-        Role userRole = roleRepository.findByName("ROLE_ADMIN");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        userService.saveUser(user);
-        return "git";
-    }
+//    @RequestMapping("/adduser")
+//    @ResponseBody
+//    public String addAdmin(){
+//        User user = new User();
+//        user.setPassword("admin");
+//        user.setUserName("admin");
+//        user.setEmail("admin@email.com");
+//        user.setActive(true);
+//        Role userRole = roleRepository.findByName("ROLE_ADMIN");
+//        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+//        userService.saveUser(user);
+//        return "git";
+//    }
 
 }
