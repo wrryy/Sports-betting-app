@@ -4,10 +4,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.wrryy.amelco.entity.User;
 import pl.wrryy.amelco.entity.Role;
+import pl.wrryy.amelco.entity.WalletEvent;
 import pl.wrryy.amelco.repository.RoleRepository;
 import pl.wrryy.amelco.repository.UserRepository;
+import pl.wrryy.amelco.repository.WalletEventRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -16,13 +19,14 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final WalletEventRepository walletEventRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, WalletEventRepository walletEventRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.walletEventRepository = walletEventRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -63,25 +67,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void walletWithdraw(User user, BigDecimal amount) {
-        user.setWalletBalance(user.getWalletBalance().subtract(amount));
-        String event = "Withdrew " + amount.toString()+ ".";
-        walletAddHistoryEvent(user, event);
+    public void walletWithdraw(User user, BigDecimal value) {
+        WalletEvent event = new WalletEvent();
+        event.setType("Withdrawal");
+        event.setCreated(LocalDateTime.now());
+        event.setUser(user);
+        event.setValue(value);
+
+        walletEventRepository.save(event);
+        user.setWalletBalance(user.getWalletBalance().subtract(value));
         this.saveUser(user);
     }
 
     @Override
-    public void walletDeposit(User user, BigDecimal amount) {
-        user.setWalletBalance(user.getWalletBalance().add(amount));
-        String event = "Deposited " + amount.toString()+ ".";
-        walletAddHistoryEvent(user, event);
-        this.saveUser(user);
-    }
+    public void walletDeposit(User user, BigDecimal value) {
+        WalletEvent event = new WalletEvent();
+        event.setType("Deposit");
+        event.setCreated(LocalDateTime.now());
+        event.setUser(user);
+        event.setValue(value);
 
-    @Override
-    public void walletAddHistoryEvent(User user, String event) {
-//        List<String> walletHistory = user.getWalletHistory();
-//        walletHistory.add(event);
+        walletEventRepository.save(event);
+        user.setWalletBalance(user.getWalletBalance().add(value));
+        this.saveUser(user);
     }
 
     @Override

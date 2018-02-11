@@ -12,6 +12,11 @@ import java.util.List;
 @Service
 public class WalletEventServiceImpl implements WalletEventService {
 private WalletEventRepository repository;
+
+    public WalletEventServiceImpl(WalletEventRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public List<WalletEvent> findAllByUser(User user) {
         return repository.findAllByUser(user);
@@ -21,9 +26,8 @@ private WalletEventRepository repository;
     public Page findAllByUser(User user, Pageable pageable) {
         return repository.findAllByUser(user, pageable);
     }
-
     @Override
     public void saveWalletEvent(WalletEvent event) {
-
     }
+
 }

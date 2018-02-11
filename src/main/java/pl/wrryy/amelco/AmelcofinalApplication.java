@@ -19,8 +19,8 @@ public class AmelcofinalApplication {
 	    return new AuthSuccessHandler();
     }
 
-    @Bean
-    public SpringDataDialect springDataDialect() {
-        return new SpringDataDialect();
-    }
+//    @Bean
+//    public SpringDataDialect springDataDialect() {
+//        return new SpringDataDialect();
+//    }
 }

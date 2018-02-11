@@ -21,6 +21,15 @@ public class WalletEvent {
     private String type;
     private LocalDateTime created;
 
-    public String getCreatedd() { return Arrays.toString(created.toString().split("T")); }
+    public String getCreatedd() {
+        return Arrays.toString(created.withSecond(0).withNano(0).toString().split("T")); }
 
+    @Override
+    public String toString() {
+        return "WalletEvent{" +
+                "value=" + value +
+                ", type='" + type + '\'' +
+                ", created=" + created +
+                '}';
+    }
 }

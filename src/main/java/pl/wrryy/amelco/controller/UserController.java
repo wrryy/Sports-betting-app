@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.wrryy.amelco.entity.User;
 import pl.wrryy.amelco.service.UserService;
+import pl.wrryy.amelco.service.WalletEventService;
 
 import java.math.BigDecimal;
 
@@ -17,9 +18,11 @@ import java.math.BigDecimal;
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
+    private WalletEventService walletEventService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, WalletEventService walletEventService) {
         this.userService = userService;
+        this.walletEventService = walletEventService;
     }
 
     @ModelAttribute("user")
@@ -50,12 +53,12 @@ public class UserController {
         User loggedUser = loggedUser();
         userService.friendRemove(loggedUser, friendToDelete);
         userService.saveUser(loggedUser);
-        return "redirect/user/account";
+        return "redirect: /user/account";
     }
 
     @PostMapping("/addFriend")
     public String searchFriend(@RequestParam String username, RedirectAttributes redirectAttributes) {
-        User newFriend = new User();
+        User newFriend;
         if (username.contains("@")) {
             newFriend = userService.findByEmail(username);
         } else {
@@ -80,6 +83,8 @@ public class UserController {
 
     @GetMapping("/wallet")
     public String userWallet(Model model) {
+        User loggedUser = loggedUser();
+        model.addAttribute("wallet", walletEventService.findAllByUser(loggedUser));
         return "user/wallet";
     }
 
