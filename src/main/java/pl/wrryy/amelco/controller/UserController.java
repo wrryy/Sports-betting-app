@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.wrryy.amelco.entity.User;
 import pl.wrryy.amelco.service.UserService;
+import pl.wrryy.amelco.service.WalletEventService;
 
 import java.math.BigDecimal;
 
@@ -17,9 +18,11 @@ import java.math.BigDecimal;
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
+    private WalletEventService walletEventService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, WalletEventService walletEventService) {
         this.userService = userService;
+        this.walletEventService = walletEventService;
     }
 
     @ModelAttribute("user")
@@ -41,7 +44,6 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findByUserName(auth.getName());
         model.addAttribute("user", loggedUser);
-//        model.addAttribute("message", message);
         return "user/friends";
     }
 
@@ -49,36 +51,40 @@ public class UserController {
     public String deleteFriend(@RequestParam long id) {
         User friendToDelete = userService.findOne(id);
         User loggedUser = loggedUser();
-        loggedUser.getFriends().remove(friendToDelete);
+        userService.friendRemove(loggedUser, friendToDelete);
         userService.saveUser(loggedUser);
-//        List<User> friends = loggedUser.getFriends();
-//        friends.remove(friendToDelete);
-//        loggedUser.setFriends(friends);
-        return "redirect/user/account";
+        return "redirect: /user/account";
     }
 
-    @PostMapping("/searchFriend")
+    @PostMapping("/addFriend")
     public String searchFriend(@RequestParam String username, RedirectAttributes redirectAttributes) {
-        User userToSearch = new User();
+        User newFriend;
         if (username.contains("@")) {
-            userToSearch = userService.findByEmail(username);
+            newFriend = userService.findByEmail(username);
         } else {
-            userToSearch = userService.findByUserName(username);
+            newFriend = userService.findByUserName(username);
         }
-        if (userToSearch == null) {
-            redirectAttributes.addAttribute("message", "No such user in database");
+        if (newFriend == null) {
+            String message = "No such User found.";
+            redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/user/friends";
         } else {
             User loggedUser = loggedUser();
-            loggedUser.getFriends().add(userToSearch);
+            userService.friendAdd(loggedUser, newFriend);
             userService.saveUser(loggedUser);
             return "redirect:/user/friends";
         }
     }
+    @PostMapping("/sendMessage")
+    private String sendMessage(){
+        //TODO
+        return "";
+    }
 
     @GetMapping("/wallet")
-    public String userWallet(@ModelAttribute String message, Model model) {
-        model.addAttribute(message);
+    public String userWallet(Model model) {
+        User loggedUser = loggedUser();
+        model.addAttribute("wallet", walletEventService.findAllByUser(loggedUser));
         return "user/wallet";
     }
 
@@ -87,7 +93,8 @@ public class UserController {
         User loggedUser = loggedUser();
         BigDecimal userWallet = loggedUser.getWalletBalance();
         if (userWallet.compareTo(value) < 0) {
-            redirectAttributes.addAttribute("message", "Value to withdraw must be equal or less than Your wallet balance.");
+            String message = "Value to withdraw must be equal or less than Your wallet balance.";
+            redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/user/wallet";
         } else {
             userService.walletWithdraw(loggedUser, value);
@@ -96,8 +103,13 @@ public class UserController {
     }
 
     @PostMapping("/walletDeposit")
-    public String walletDeposit(@RequestParam double value) {
+    public String walletDeposit(@RequestParam double value, RedirectAttributes redirectAttributes) {
         User loggedUser = loggedUser();
+        if (value>=200){
+            value *= 1.1;
+            String message = "You gave been granted with additional 10%!";
+            redirectAttributes.addFlashAttribute("message", message);
+        }
         userService.walletDeposit(loggedUser, BigDecimal.valueOf(value));
         return "redirect:/user/wallet";
     }
@@ -113,4 +125,3 @@ public class UserController {
 //            return "user/edit";
 //        }
 //    }
-
