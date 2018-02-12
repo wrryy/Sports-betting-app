@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -223,12 +223,15 @@
                     </li>
                     <li class="divider"></li>
                     <li>
+                        <span sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/login}" th:text="#{page.login.login}"> </a>
+                        </span>
+                    </li>
+                    <li>
                         <form th:action="@{/logout}" method="post">
                             <input type="submit" value="Wyloguj"/>
                         </form>
                     </li>
-                    <li><a href="user/login.html"><i class="fa fa-sign-out fa-fw"></i>
-                        Logout</a></li>
                 </ul> <!-- /.dropdown-user --></li>
             <!-- /.dropdown -->
         </ul>

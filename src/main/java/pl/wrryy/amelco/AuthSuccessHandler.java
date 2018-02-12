@@ -13,21 +13,21 @@ import java.util.Collection;
 @Component
 public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-        @Override
-        protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            Collection<? extends GrantedAuthority> roles = auth.getAuthorities();
+    @Override
+    protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> roles = auth.getAuthorities();
 
-            String targetUrl = "";
-            for  (GrantedAuthority role : roles){
-            if(role.toString().contains("ADMIN")) {
+        String targetUrl = "";
+        for (GrantedAuthority role : roles) {
+            if (role.toString().contains("ADMIN")) {
                 targetUrl = "/admin/users";
-            } else if(role.toString().contains("USER")) {
+            } else if (role.toString().contains("USER")) {
                 targetUrl = "/";
             }
-            }
-            return targetUrl;
         }
+        return targetUrl;
+    }
 
 //        implements AuthenticationSuccessHandler {
 //    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();

@@ -6,6 +6,7 @@
 </head>
 <body>
 <h2 th:text="#{user.register}"></h2>
+<span th:text="${message}"></span>
 <form action="#" th:action="@{/register}" method="post" th:object="${user}">
     <div>
     <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>

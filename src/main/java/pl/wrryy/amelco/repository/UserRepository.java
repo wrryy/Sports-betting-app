@@ -8,4 +8,5 @@ import pl.wrryy.amelco.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     public User findByUserName(String userName);
     public User findByEmail(String email);
+    public User findUserByUserNameEquals(String name);
 }

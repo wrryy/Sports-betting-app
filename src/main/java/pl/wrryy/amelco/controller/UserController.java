@@ -7,11 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.wrryy.amelco.entity.Message;
 import pl.wrryy.amelco.entity.User;
+import pl.wrryy.amelco.service.MessageService;
 import pl.wrryy.amelco.service.UserService;
 import pl.wrryy.amelco.service.WalletEventService;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Secured("ROLE_USER")
 @Controller
@@ -19,10 +22,12 @@ import java.math.BigDecimal;
 public class UserController {
     private UserService userService;
     private WalletEventService walletEventService;
+    private MessageService messageService;
 
-    public UserController(UserService userService, WalletEventService walletEventService) {
+    public UserController(UserService userService, WalletEventService walletEventService, MessageService messageService) {
         this.userService = userService;
         this.walletEventService = walletEventService;
+        this.messageService = messageService;
     }
 
     @ModelAttribute("user")
@@ -36,28 +41,19 @@ public class UserController {
     public String userPanel(Model model) {
         return "user/account";
     }
-
     @GetMapping("/friends")
-    public String userPane(Model model
-//            ,@RequestParam String message
-    ) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = userService.findByUserName(auth.getName());
-        model.addAttribute("user", loggedUser);
+    public String userPane(Model model) {
+        model.addAttribute("user", loggedUser());
         return "user/friends";
     }
-
     @GetMapping("/deleteFriend")
     public String deleteFriend(@RequestParam long id) {
         User friendToDelete = userService.findOne(id);
-        User loggedUser = loggedUser();
-        userService.friendRemove(loggedUser, friendToDelete);
-        userService.saveUser(loggedUser);
-        return "redirect: /user/account";
+        userService.friendRemove(loggedUser(), friendToDelete);
+        return "redirect:/user/friends";
     }
-
     @PostMapping("/addFriend")
-    public String searchFriend(@RequestParam String username, RedirectAttributes redirectAttributes) {
+    public String searchAndAddFriend(@RequestParam String username, RedirectAttributes redirectAttributes) {
         User newFriend;
         if (username.contains("@")) {
             newFriend = userService.findByEmail(username);
@@ -69,25 +65,41 @@ public class UserController {
             redirectAttributes.addFlashAttribute("message", message);
             return "redirect:/user/friends";
         } else {
-            User loggedUser = loggedUser();
-            userService.friendAdd(loggedUser, newFriend);
-            userService.saveUser(loggedUser);
+            userService.friendAdd(loggedUser(), newFriend);
             return "redirect:/user/friends";
         }
     }
     @PostMapping("/sendMessage")
-    private String sendMessage(){
-        //TODO
-        return "";
+    private String sendMessage(@ModelAttribute Message message, @RequestParam String target){
+        if(!target.equals("messages")){
+            target = "messages/"+message.getToUser().getUserName();
+        }
+        messageService.saveMessage(message);
+        return "redirect:/user/"+target;
     }
-
+    @GetMapping("/messages")
+    private String allConversations(Model model){
+        List<User> friends = userService.getMessagedFriends(loggedUser(), messageService.getMessagesByUser(loggedUser()));
+        model.addAttribute("friends", friends);
+        model.addAttribute("newMessage", new Message());
+        return "user/messages";
+    }
+    @GetMapping("/messages/{userName}")
+    private String getConversation(@PathVariable String userName, Model model){
+//        User toUser = userService.findByUserName(userName);
+        User toUser = userService.findByUserNameLike(userName);
+        List<Message> messages = messageService.getConversationWithUser(loggedUser(), toUser);
+        model.addAttribute("newMessage", new Message());
+        model.addAttribute("messages", messages);
+        model.addAttribute("friend", toUser);
+        return "user/messages";
+    }
     @GetMapping("/wallet")
     public String userWallet(Model model) {
         User loggedUser = loggedUser();
         model.addAttribute("wallet", walletEventService.findAllByUser(loggedUser));
         return "user/wallet";
     }
-
     @PostMapping("/walletWithdraw")
     public String walletWithdraw(@RequestParam BigDecimal value, RedirectAttributes redirectAttributes) {
         User loggedUser = loggedUser();
@@ -101,7 +113,6 @@ public class UserController {
             return "redirect:/user/wallet";
         }
     }
-
     @PostMapping("/walletDeposit")
     public String walletDeposit(@RequestParam double value, RedirectAttributes redirectAttributes) {
         User loggedUser = loggedUser();

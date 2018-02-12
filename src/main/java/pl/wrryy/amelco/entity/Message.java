@@ -4,30 +4,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Coupon {
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @ManyToOne
-    @NotNull
-    private User user;
+    private User fromUser;
+    @ManyToOne
+    private User toUser;
 
-    @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL)
-    private List<Bet> bets;
-
+    private String text;
     private LocalDateTime created;
 
     public String getCreatedd() {
-        return Arrays.toString(created.withSecond(0).withNano(0).toString().split("T")); }
-
+        return Arrays.toString(created.withSecond(0).withNano(0).toString().split("T"));
+    }
 
 }

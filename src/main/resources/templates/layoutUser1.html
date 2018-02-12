@@ -221,10 +221,16 @@
                     <li><a th:href="@{/user/account}"><i class="fa fa-user fa-fw"></i> User
                         Profile</a></li>
                     <li>
+                        <span sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/login}" th:text="#{page.login.login}"> </a>
+                        </span>
+                    </li>
+                    <li>
                         <span sec:authorize="isAuthenticated()">
                         <form th:action="@{/logout}" method="post">
                         <input type="submit" th:value="#{logout}"/>
-                        </form></span>
+                        </form>
+                        </span>
                     </li>
                 </ul> <!-- /.dropdown-user --></li>
             <!-- /.dropdown -->
@@ -285,9 +291,7 @@
                         </ul> <!-- /.nav-second-level --></li>
                 </ul>
             </div>
-            <!-- /.sidebar-collapse -->
         </div>
-        <!-- /.navbar-static-side -->
     </nav>
 
     <div id="page-wrapper">
@@ -326,22 +330,6 @@
                     </a>
                 </div>
             </div>
-            <!--<div class="col-lg-3 col-md-6">-->
-            <!--<div class="panel panel-yellow">-->
-            <!--<a href="#">-->
-            <!--<div class="panel-heading">-->
-            <!--<div class="row">-->
-            <!--<div class="col-xs-3">-->
-            <!--<i class="fa fa-5x"></i>-->
-            <!--</div>-->
-            <!--<div class="col-xs-9 text-right">-->
-            <!--<div class="huge">Live</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</a>-->
-            <!--</div>-->
-            <!--</div>-->
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-red">
                     <a href="/user/account">
@@ -382,7 +370,7 @@
             <div class="col-lg-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <span th:text="#{page.userpage.newsletter}"></span>
+                        <span th:text="#{page.userpage.newsletter }"></span>
                     </div>
                     <i class="fa fa-fw"></i>
                     <!-- /.panel-heading -->

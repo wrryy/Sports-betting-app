@@ -23,8 +23,7 @@ public class AdminAddController {
     private BetCategoryService betCategoryService;
 
     public AdminAddController(UserService userService, RoleService roleService, GameService gameService,
-                              TeamService teamService, SportService sportService, BetService betService,
-                              BetCategoryService betCategoryService) {
+                              TeamService teamService, SportService sportService, BetService betService, BetCategoryService betCategoryService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
@@ -60,7 +59,7 @@ public class AdminAddController {
         if (result.hasErrors()) {
             return "admin/users";
         } else {
-            userService.saveUser(user);
+            userService.addUser(user);
             return "redirect:/admin/users";
         }
     }
@@ -76,7 +75,10 @@ public class AdminAddController {
     }
     @PostMapping("/game")
     public String addGame(@Valid Game game, BindingResult result) {
-        if (result.hasErrors()) {
+        boolean teamOk = game.getTeams().get(0).getSport().equals(game.getTeams().get(1).getSport());
+        boolean sportOk = game.getSport().equals(game.getTeams().get(0).getSport());
+
+        if (!teamOk || !sportOk) {
             return "admin/games";
         } else {
             gameService.saveGame(game);

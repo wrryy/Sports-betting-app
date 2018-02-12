@@ -41,10 +41,10 @@ public class AdminViewController {
     public List<User> getUsers() {
         return userService.findAll();
     }
-    @ModelAttribute("games")
-    public List<Game> getGames() {
-        return gameService.findAll();
-    }
+//    @ModelAttribute("games")
+//    public List<Game> getGames() {
+//        return gameService.findAll(@SortDefault("id") Pageable pageable);
+//    }
     @ModelAttribute("sports")
     public List<Sport> getSports() {
         return sportService.findAll();
@@ -69,6 +69,7 @@ public class AdminViewController {
     @RequestMapping("/games")
     public String listGames(ModelMap model, @SortDefault("id") Pageable pageable) {
         model.addAttribute("game", new Game());
+        model.addAttribute("games", gameService.findAll(pageable));
         return "admin/games";
     }
 
