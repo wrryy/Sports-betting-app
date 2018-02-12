@@ -49,10 +49,10 @@ public class AdminViewController {
     public List<Sport> getSports() {
         return sportService.findAll();
     }
-    @ModelAttribute("teams")
-    public List<Team> getTeams() {
-        return teamService.findAll();
-    }
+//    @ModelAttribute("teams")
+//    public List<Team> getTeams() {
+//        return teamService.findAll();
+//    }
 
     @RequestMapping("/users")
     public String listUsers(ModelMap model, @SortDefault("id") Pageable pageable) {
@@ -76,6 +76,7 @@ public class AdminViewController {
     @RequestMapping("/teams")
     public String listTeams(ModelMap model, @SortDefault("id") Pageable pageable) {
         model.addAttribute("team", new Team());
+        model.addAttribute("teams", teamService.findAll(pageable));
         return "admin/teams";
     }
 

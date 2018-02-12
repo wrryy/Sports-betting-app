@@ -194,9 +194,3 @@ insert into team (name, sport_id) values ('Plomien Milowice', 3);
 
 
 
-
-
-
-
-
-
