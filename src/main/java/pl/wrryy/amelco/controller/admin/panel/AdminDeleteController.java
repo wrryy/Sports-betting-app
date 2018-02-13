@@ -1,4 +1,4 @@
-package pl.wrryy.amelco.controller;
+package pl.wrryy.amelco.controller.admin.panel;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,11 @@ public class AdminDeleteController {
     private SportService sportService;
     private BetService betService;
     private BetCategoryService betCategoryService;
+    private ContentService contentService;
+    private TopicService topicService;
 
     public AdminDeleteController(UserService userService, RoleService roleService, GameService gameService, TeamService teamService,
-                                 SportService sportService, BetService betService, BetCategoryService betCategoryService) {
+                                 SportService sportService, BetService betService, BetCategoryService betCategoryService, ContentService contentService, TopicService topicService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
@@ -26,6 +28,8 @@ public class AdminDeleteController {
         this.sportService = sportService;
         this.betService = betService;
         this.betCategoryService = betCategoryService;
+        this.contentService = contentService;
+        this.topicService = topicService;
     }
 
     @GetMapping("/user")
@@ -33,11 +37,11 @@ public class AdminDeleteController {
         userService.deleteUser(id);
         return "redirect:/admin/users";
     }
-    @GetMapping("/game")
-    public String deleteGame(@RequestParam long id){
-        gameService.deleteGame(id);
-        return "redirect:/admin/games";
-    }
+//    @GetMapping("/game")
+//    public String deleteGame(@RequestParam long id){
+//        gameService.deleteGame(id);
+//        return "redirect:/admin/games";
+//    }
     @GetMapping("/bet")
     public String deleteBet(@RequestParam long id){
         betService.deleteBet(id);
@@ -62,6 +66,16 @@ public class AdminDeleteController {
     public String deleteBetCat(@RequestParam long id){
         betCategoryService.deleteBetCategory(id);
         return "redirect:/admin/betCats";
+    }
+    @GetMapping("/content")
+    public String deleteContent(@RequestParam long id){
+        contentService.deleteContent(id);
+        return "redirect:/admin/content";
+    }
+    @GetMapping("/topic")
+    public String deleteTopic(@RequestParam long id){
+        topicService.deleteTopic(id);
+        return "redirect:/admin/topics";
     }
 
 

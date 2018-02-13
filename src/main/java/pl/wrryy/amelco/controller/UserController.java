@@ -70,7 +70,7 @@ public class UserController {
         }
     }
     @PostMapping("/sendMessage")
-    private String sendMessage(@ModelAttribute Message message, @RequestParam String target){
+    public String sendMessage(@ModelAttribute Message message, @RequestParam String target){
         if(!target.equals("messages")){
             target = "messages/"+message.getToUser().getUserName();
         }
@@ -78,14 +78,14 @@ public class UserController {
         return "redirect:/user/"+target;
     }
     @GetMapping("/messages")
-    private String allConversations(Model model){
+    public String allConversations(Model model){
         List<User> friends = userService.getMessagedFriends(loggedUser(), messageService.getMessagesByUser(loggedUser()));
         model.addAttribute("friends", friends);
         model.addAttribute("newMessage", new Message());
         return "user/messages";
     }
     @GetMapping("/messages/{userName}")
-    private String getConversation(@PathVariable String userName, Model model){
+    public String getConversation(@PathVariable String userName, Model model){
 //        User toUser = userService.findByUserName(userName);
         User toUser = userService.findByUserNameLike(userName);
         List<Message> messages = messageService.getConversationWithUser(loggedUser(), toUser);

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sd="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="menu">
+    <a th:href="@{/admin/users}" th:text="#{admin.menu.users}">Users</a>
+    <a th:href="@{/admin/teams}" th:text="#{admin.menu.teams}">Teams</a>
+    <a th:href="@{/admin/games}" th:text="#{admin.menu.games}">Games</a>
+    <a th:href="@{/admin/categories}" th:text="#{admin.menu.categories}">Categories</a>
+    <a th:href="@{/admin/roles}" th:text="#{admin.menu.roles}">Roles</a>
+    <a th:href="@{/admin/content}" th:text="#{admin.menu.content}">Content</a>
+    <a th:href="@{/admin/topics}" th:text="#{admin.menu.topics}">Bets</a>
+</div>
+<section layout:fragment="content">
+
+</section>
+</body>
+</html>

@@ -90,11 +90,10 @@ public class ApiController {
                 Long epochStart = (long) match.get("start");
                 LocalDateTime started = LocalDateTime.ofInstant(Instant.ofEpochMilli(epochStart), ZoneId.systemDefault());
 
-                game.setResult(goals);
+//                game.setResult(goals);
                 game.setTeams(gameTeams);
                 game.setSport(sport);
                 game.setStarted(started);
-                game.setActive(false);
                 gameService.saveGame(game);
             }
         } catch (

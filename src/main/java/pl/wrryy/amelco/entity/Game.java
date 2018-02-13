@@ -19,15 +19,16 @@ public class Game {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Team> teams;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Sport sport;
 
-    private int[] result;
+    private int scoreHome;
+    private int scoreAway;
     private LocalDateTime started;
     private boolean active;
 
     public String thatResult(){
-        return result[0]+ ":" + result[1];
+        return scoreHome+ ":" + scoreAway;
     }
     public String thatTeams(){
         return teams.get(0).getName()+ " - " + teams.get(1).getName();

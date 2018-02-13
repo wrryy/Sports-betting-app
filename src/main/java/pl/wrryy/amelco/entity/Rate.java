@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,7 +16,8 @@ public class Rate {
 
     @ManyToOne
     private Game game;
-
-    private BigDecimal rate;
+    @ManyToOne
+    private BetCategory betCategory;
+    private double rate;
     private LocalDateTime created;
 }

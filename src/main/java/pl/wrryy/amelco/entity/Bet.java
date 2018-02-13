@@ -22,6 +22,9 @@ public class Bet {
     @NotNull
     private Coupon coupon;
     private BigDecimal stake;
+    private byte outcome;
+    @ManyToOne
+    private BetCategory betCategory;
 
     @ManyToOne
     private Rate rate;

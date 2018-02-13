@@ -12,10 +12,20 @@ import java.util.Set;
 public class SubscriptionContent {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String name;
+    private long id;
     @ManyToMany
     private Set<User> users;
 
+    @ManyToOne
+    private SubscriptionTopic topic;
+    private String content;
+
+    @Override
+    public String toString() {
+        return "SubscriptionContent{" +
+                "topic=" + topic +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }
 

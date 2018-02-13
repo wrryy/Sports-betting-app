@@ -4,10 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,7 +18,7 @@ public class BetCategory {
     @NotEmpty
     private String name;
 
-//    @ManyToMany(mappedBy = "betCategories")
-//    private List<Sport> sports;
+    @ManyToMany
+    private List<Sport> sports;
 
 }

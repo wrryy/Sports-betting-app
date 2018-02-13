@@ -1,26 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-      xmlns:sd="http://www.w3.org/1999/xhtml">
+      xmlns:sd="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layoutAdmin">
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--<link href="../moje/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
     <title th:text="#{page.title}"></title>
 </head>
 <body>
-<!--<span sec:authorize="isAuthenticated()">-->
-<!--<form th:action="@{/logout}" method="post">-->
-<!--<input type="submit" value="Wyloguj"/>-->
-<!--</form></span>-->
-<div class="menu">
-    <a th:href="@{/admin/users}" th:text="#{admin.menu.users}">Users</a>
-    <a th:href="@{/admin/teams}" th:text="#{admin.menu.teams}">Teams</a>
-    <strong><a th:href="@{/admin/games}" th:text="#{admin.menu.games}">Games</a></strong>
-    <a th:href="@{/admin/categories}" th:text="#{admin.menu.categories}">Categories</a>
-    <a th:href="@{/admin/roles}" th:text="#{admin.menu.roles}">Roles</a>
-    <a th:href="@{/admin/bets}" th:text="#{admin.menu.bets}">Bets</a>
-</div>
-
+<section layout:fragment="content">
 <div class=" div column-form">
     <div class="bb">
         <form action="#" th:action="@{/admin/add/game}" method="post" th:object="${game}">
@@ -46,17 +34,15 @@
             <tr>
                 <th><a class="sorted" sd:pagination-sort="teams" th:text="#{game.teams}"></a></th>
                 <th><a class="sorted" sd:pagination-sort="sport" th:text="#{sport}"></a></th>
+                <th><a class="sorted" sd:pagination-sort="started" th:text="#{game.started}"></a></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="game: ${games}">
                 <td th:text="${game.thatTeams()}"></td>
+                <td th:text="${game.thatResult()}"></td>
                 <td th:text="${game.sport.name}"></td>
-                <td>
-                    <a th:href="@{/student/remove}" class="btn btn-primary btn-xs">
-                        <i class="fa fa-folder"></i> Remove student </a>
-
-                </td>
+                <td th:text="${game.getStartedd()}"></td>
             </tr>
             </tbody>
         </table>
@@ -77,5 +63,6 @@
         </div>
     </div>
 </div>
+</section>
 </body>
 </html>

@@ -45,4 +45,11 @@ public class User {
     private Set<Role> roles;
     private boolean active;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

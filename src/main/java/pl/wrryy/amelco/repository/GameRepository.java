@@ -14,10 +14,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     public Game findAllByTeams(Team team);
     public List<Game> findBySport(Sport sport);
-    public List<Game> findBySport_Name(String sportName);
     public List<Game> findByStartedAfter(LocalDateTime date);
-
-
 
 
 }

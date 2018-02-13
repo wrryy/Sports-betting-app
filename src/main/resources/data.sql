@@ -113,6 +113,33 @@ insert into sport (name) values ('Volleyball');
 insert into sport (name) values ('Handball');
 insert into sport (name) values ('Tennis');
 
+insert into bet_category (name) values ('Result 1X2');
+insert into bet_category (name) values ('Halftime 1X2');
+insert into bet_category (name) values ('Both teams to score?');
+
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (1,1);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (1,2);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (1,3);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (2,1);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (2,2);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (2,3);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (3,1);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (3,2);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (3,3);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (4,1);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (4,2);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (4,3);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (5,1);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (5,2);
+insert into sport_bet_categories (sport_id, bet_categories_id) VALUES (5,3);
+
+insert into subscription_topic (name) values ('General');
+insert into subscription_topic (name) values ('Football');
+insert into subscription_topic (name) values ('Basketball');
+insert into subscription_topic (name) values ('Volleyball');
+insert into subscription_topic (name) values ('Handball');
+insert into subscription_topic (name) values ('Tennis');
+
 insert into team (name, sport_id) values ('Arsenal', 1);
 insert into team (name, sport_id) values ('Bournemouth', 1);
 insert into team (name, sport_id) values ('Brighton & Hove Albion', 1);

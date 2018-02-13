@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-      xmlns:sd="http://www.w3.org/1999/xhtml">
+      xmlns:sd="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layoutAdmin">
 <head>
     <meta charset="UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -8,18 +9,7 @@
     <title th:text="#{page.title}"></title>
 </head>
 <body>
-<!--<span sec:authorize="isAuthenticated()">-->
-<!--<form th:action="@{/logout}" method="post">-->
-<!--<input type="submit" value="Wyloguj"/>-->
-<!--</form></span>-->
-<div class="menu">
-   <a th:href="@{/admin/users}" th:text="#{admin.menu.users}">Users</a>
-    <a th:href="@{/admin/teams}" th:text="#{admin.menu.teams}">Teams</a>
-    <a th:href="@{/admin/games}" th:text="#{admin.menu.games}">Games</a>
-    <a th:href="@{/admin/categories}" th:text="#{admin.menu.categories}">Categories</a>
-    <strong><a th:href="@{/admin/roles}" th:text="#{admin.menu.roles}">Roles</a></strong>
-    <a th:href="@{/admin/bets}" th:text="#{admin.menu.bets}">Bets</a>
-</div>
+<section layout:fragment="content">
 
 <div class=" div column-form">
     <div class="bb">
@@ -65,5 +55,6 @@
         </div>
     </div>
 </div>
+</section>
 </body>
 </html>

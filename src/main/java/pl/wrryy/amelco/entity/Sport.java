@@ -17,7 +17,4 @@ public class Sport {
 
     @NotEmpty
     private String name;
-
-    @ManyToMany
-    private List<BetCategory> betCategories;
 }

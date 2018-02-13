@@ -2,9 +2,7 @@ package pl.wrryy.amelco.controller;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.wrryy.amelco.entity.*;
 import pl.wrryy.amelco.service.*;
 
@@ -18,16 +16,21 @@ public class HomeController {
     private TeamService teamService;
     private SportService sportService;
     private BetService betService;
+    private ContentService contentService;
+    private TopicService topicService;
 
-    public HomeController(UserService userService, RoleService roleService,
-                          GameService gameService, TeamService teamService, SportService sportService, BetService betService) {
+    public HomeController(UserService userService, RoleService roleService, GameService gameService, TeamService teamService,
+                          SportService sportService, BetService betService, ContentService contentService, TopicService topicService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
         this.teamService = teamService;
         this.sportService = sportService;
         this.betService = betService;
+        this.contentService = contentService;
+        this.topicService = topicService;
     }
+
     @ModelAttribute("roles")
     public List<Role> getRoles() {
         return roleService.findAll();
@@ -38,7 +41,7 @@ public class HomeController {
     }
     @ModelAttribute("games")
     public List<Game> getGames() {
-        return gameService.findAll();
+        return gameService.findAllActiveGames();
     }
     @ModelAttribute("sports")
     public List<Sport> getSports() {
@@ -47,15 +50,18 @@ public class HomeController {
     @ModelAttribute("teams")
     public List<Team> getTeams() {
         return teamService.findAll();
+
     }
     @RequestMapping("/")
     public String home() {
         return "index";
     }
 
-
-
-
+    @PostMapping("/adduserToTopic")
+    public String adduserToTopic(@RequestParam SubscriptionTopic topic, @RequestParam User user) {
+        topicService.addUserToTopic(topic, user);
+        return "redirect:/admin/topics";
+    }
 
     @RequestMapping("/403")
     @ResponseBody

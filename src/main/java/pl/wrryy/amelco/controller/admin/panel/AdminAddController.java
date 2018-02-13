@@ -1,4 +1,4 @@
-package pl.wrryy.amelco.controller;
+package pl.wrryy.amelco.controller.admin.panel;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,9 +21,11 @@ public class AdminAddController {
     private SportService sportService;
     private BetService betService;
     private BetCategoryService betCategoryService;
+    private ContentService contentService;
+    private TopicService topicService;
 
-    public AdminAddController(UserService userService, RoleService roleService, GameService gameService,
-                              TeamService teamService, SportService sportService, BetService betService, BetCategoryService betCategoryService) {
+    public AdminAddController(UserService userService, RoleService roleService, GameService gameService, TeamService teamService,
+                              SportService sportService, BetService betService, BetCategoryService betCategoryService, ContentService contentService, TopicService topicService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
@@ -31,24 +33,30 @@ public class AdminAddController {
         this.sportService = sportService;
         this.betService = betService;
         this.betCategoryService = betCategoryService;
+        this.contentService = contentService;
+        this.topicService = topicService;
     }
 
     @ModelAttribute("roles")
     public List<Role> getRoles() {
         return roleService.findAll();
     }
+
     @ModelAttribute("users")
     public List<User> getUsers() {
         return userService.findAll();
     }
+
     @ModelAttribute("games")
     public List<Game> getGames() {
         return gameService.findAll();
     }
+
     @ModelAttribute("sports")
     public List<Sport> getSports() {
         return sportService.findAll();
     }
+
     @ModelAttribute("teams")
     public List<Team> getTeams() {
         return teamService.findAll();
@@ -73,6 +81,7 @@ public class AdminAddController {
             return "redirect:/admin/roles";
         }
     }
+
     @PostMapping("/game")
     public String addGame(@Valid Game game, BindingResult result) {
         boolean teamOk = game.getTeams().get(0).getSport().equals(game.getTeams().get(1).getSport());
@@ -85,6 +94,7 @@ public class AdminAddController {
             return "redirect:/admin/games";
         }
     }
+
     @PostMapping("/team")
     public String addTeam(@Valid Team team, BindingResult result) {
         if (result.hasErrors()) {
@@ -94,6 +104,7 @@ public class AdminAddController {
             return "redirect:/admin/teams";
         }
     }
+
     @PostMapping("/category")
     public String addCategory(@Valid Sport sport, BindingResult result) {
         if (result.hasErrors()) {
@@ -103,6 +114,7 @@ public class AdminAddController {
             return "redirect:/admin/categories";
         }
     }
+
     @PostMapping("/betCat")
     public String addBetCat(@Valid BetCategory betCategory, BindingResult result) {
         if (result.hasErrors()) {
@@ -112,4 +124,27 @@ public class AdminAddController {
             return "redirect:/admin/betCats";
         }
     }
+
+    @PostMapping("/content")
+    public String addContent(@Valid SubscriptionContent subscriptionContent, BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/content";
+        } else {
+            subscriptionContent.setUsers(subscriptionContent.getTopic().getUsers());
+            contentService.saveContent(subscriptionContent);
+            return "redirect:/admin/content";
+        }
+    }
+
+    @PostMapping("/topic")
+    public String addContent(@Valid SubscriptionTopic subscriptionTopic, BindingResult result) {
+        if (result.hasErrors()) {
+            return "admin/topics";
+        } else {
+            topicService.saveTopic(subscriptionTopic);
+            return "redirect:/admin/topics";
+        }
+    }
+
 }
+
