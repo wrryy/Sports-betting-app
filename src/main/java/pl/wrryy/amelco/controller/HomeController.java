@@ -37,12 +37,14 @@ public class HomeController {
     public List<Sport> getSports() { return sportService.findAll(); }
     @ModelAttribute("games")
     public List<Game> getGames() { return gameService.findAll(); }
+
     @ModelAttribute("bet")
     public Bet getBet() {
         Bet bet = new Bet();
-        bet.setRate(fakerService.getRate());
+        bet.setRate(new Rate());
         bet.setCoupon(new Coupon());
         return bet; }
+
     @ModelAttribute("betCats")
     public List<BetCategory> getBetCats() { return betCategoryService.findAll(); }
     @ModelAttribute("user")
@@ -60,9 +62,10 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String home(Model model) {
+        public String home(Model model) {
+        model.addAttribute("user", loggedUser());
         fakerService.regenerate();
-        return "index";
+            return "index";
     }
 
     @RequestMapping("/403")

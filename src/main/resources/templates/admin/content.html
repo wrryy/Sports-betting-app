@@ -12,7 +12,7 @@
             <form action="#" th:action="@{/admin/add/subContent}" method="post" th:object="${subscriptionContent}">
                 <h3>Add new subscription content</h3>
                 <div>Topic<select th:field="*{subscriptionTopic}">
-                    <option th:each="topic: ${topics}" th:value="${topic}" th:text="${topic.name}"></option>
+                    <option th:each="topic: ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
                 </select></div>
                 <div>
                     <span>Content</span><input type="text" th:field="*{content}"/>

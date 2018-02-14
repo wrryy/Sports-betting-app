@@ -19,5 +19,4 @@ public class CouponService {
         List<Bet> bets = coupon.getBets();
         bets.add(bet);
         coupon.setBets(bets);
-        couponRepository.save(coupon);}
-}
+}}

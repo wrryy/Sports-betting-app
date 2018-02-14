@@ -30,19 +30,10 @@ public class DataFakerService {
         this.rateService = rateService;
     }
 
-    public Rate getRate() {
-        Rate rate = new Rate();
-        rate.setGame(game);
-        rate.setBetCategory(betCategoryService.findOne(j));
-        rate.setCreated(LocalDateTime.now());
-        rate.setRate(faker.number().randomDouble(2, 1, 5));
-
-        return rate;
-    }
 
     @Scheduled(fixedRate = 5000)
     public void regenerate() {
-        if (c != 0) {
+        if (c == 0) {
             c+=1;
             Faker faker = new Faker();
             for (long i = 0; i < 10; i++) {

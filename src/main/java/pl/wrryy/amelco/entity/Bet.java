@@ -25,6 +25,7 @@ public class Bet {
     private byte outcome;
     @ManyToOne
     private BetCategory betCategory;
+
     @ManyToOne
     private Rate rate;
     private boolean active; // true if associated game not finished

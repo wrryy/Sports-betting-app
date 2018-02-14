@@ -7,27 +7,29 @@
         <div class="panel-heading">
             <span th:text="#{page.userpage.sendmessage}"></span>
         </div>
-        <form action="#" th:action="@{/user/sendMessage}" method="post" th:object="${newMessage}">
-            <div>
-                <span th:text="#{page.userpage.friend}">Users</span>
-                <select>
-                    <option th:each="friend: ${user.friends}" th:field="*{toUser}" th:value="${friend}"
-                            th:text="${friend.userName}"></option>
-                </select>
+        <div class="panel-body">
+            <div class="row">
+                <form action="#" th:action="@{/user/sendMessage}" method="post" th:object="${message}">
+                    <div>
+                        <span th:text="#{page.userpage.friend}">Users</span>
+                        <select>
+                            <option th:each="friend: ${user.friends}" th:field="*{toUser}" th:value="${friend.id}"
+                                    th:text="${friend.userName}"></option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" th:field="*{text}"/>
+                    </div>
+                    <div>
+                        <input type="hidden" th:field="*{fromUser}" th:value="${user}"/>
+                    </div>
+                    <input type="submit" th:text="#{send}"/>
+                </form>
+
             </div>
-            <div>
-                <input type="text" th:field="*{text}"/>
-            </div>
-            <div>
-                <input type="hidden" th:field="*{fromUser}" th:value="${user}"/>
-            </div>
-            <div>
-                <input type="hidden" name="target" th:value="${friends == null} ? 'conv': 'messages'"/>
-            </div>
-            <input type="submit" th:text="#{send}"/>
-        </form>
+        </div>
+
     </div>
-    <th:block th:if="${friends?}">
     <div class="panel panel-default">
         <div class="panel-heading">
             <span th:text="#{page.userpage.conversations}"></span>
@@ -37,27 +39,29 @@
                 <ul>
                     <li th:each="friend: ${friends}">
                         <span th:text="${friend.userName}"></span>
-                        <a th:href="@{/user/messages/{userName}(userName=${friend.userName})}" th:text="#{page.userpage.view}"></a>                    </li>
+                        <a th:href="@{/user/messages/{userName}(userName=${friend.userName})}"
+                           th:text="#{page.userpage.view}"></a></li>
                 </ul>
             </div>
         </div>
     </div>
     </th:block>
     <th:block th:if="${friends}==null">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span th:text="#{page.userpage.conversations}"></span>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <ul>
-                    <li th:each="friend: ${friends}">
-                        <span th:text="${friend.userName}"></span>
-                        <a th:href="@{/user/messages/{userName}(userName=${friend.userName})}" th:text="#{page.userpage.text}"></a>                    </li>
-                </ul>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span th:text="#{page.userpage.conversations}"></span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <ul>
+                        <li th:each="friend: ${friends}">
+                            <span th:text="${friend.userName}"></span>
+                            <a th:href="@{/user/messages/{userName}(userName=${friend.userName})}"
+                               th:text="#{page.userpage.text}"></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
     </th:block>
 </section>
 </html>

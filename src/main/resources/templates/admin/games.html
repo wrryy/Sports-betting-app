@@ -15,15 +15,16 @@
             <h3 th:text="#{admin.add.game}"></h3>
             <div>
                 <div><span th:text="#{team}">Team</span> <select th:field="*{teams}" th:multiple="true">
-                    <option th:each="team: ${teams}" th:value="${team}" th:text="${team.name}" ></option>
+                    <option th:each="team: ${teams}" th:value="${team.id}" th:text="${team.name}" ></option>
                 </select></div>
             </div>
             <div> <span th:text="#{sport}">Category</span><select th:field="*{sport}">
-                <option th:each="sport: ${sports}" th:value="${sport}" th:text="${sport.name}"></option>
+                <option th:each="sport: ${sports}" th:value="${sport.id}" th:text="${sport.name}"></option>
             </select></div>
-            <div> <span th:text="#{game.started}">Category</span>
-                <input type="datetime-local" th:field="*{started}"></div>
-            <p><input type="hidden" th:field="*{active}" value="true"/></p>
+            <div> <span th:text="#{game.started}">Start date</span>
+                <input type="datetime-local" th:field="*{start}"></div>
+            <p><input type="hidden" th:field="*{started}" value="false"/></p>
+            <p><input type="hidden" th:field="*{ended}" value="false"/></p>
             <input type="submit" th:text="#{admin.add}"/>
         </form>
     </div>
@@ -42,7 +43,7 @@
                 <td th:text="${game.thatTeams()}"></td>
                 <td th:text="${game.thatResult()}"></td>
                 <td th:text="${game.sport.name}"></td>
-                <td th:text="${game.getStartedd()}"></td>
+                <td th:text="${game.thatStart()}"></td>
             </tr>
             </tbody>
         </table>

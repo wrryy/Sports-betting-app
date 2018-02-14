@@ -29,7 +29,8 @@
                 <ul>
                     <li th:each="friend: ${user.friends}">
                         <span th:text="|${friend.firstName}  ${friend.lastName}|"></span>
-                        <a th:href="@{/user/messages/{userName}(userName=${friend.userName})}" th:text="#{page.userpage.texthim}"></a>
+                        <a th:href="@{/user/messages}" th:text="#{page.userpage.texthim}"></a>
+                        <!--<a th:href="@{/user/messages/{userName}(userName=${friend.userName})}" th:text="#{page.userpage.texthim}"></a>-->
                         <a th:href="@{/user/deleteFriend(id=${friend.id})}" th:text="#{delete}"></a>
                     </li>
                 </ul>
