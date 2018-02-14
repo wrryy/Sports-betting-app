@@ -22,4 +22,5 @@ public class BetCategoryService  {
     public void deleteBetCategory(long id) { betCategoryRepository.delete(id); }
 
     public List<BetCategory> findAll() { return betCategoryRepository.findAll(); }
+
 }

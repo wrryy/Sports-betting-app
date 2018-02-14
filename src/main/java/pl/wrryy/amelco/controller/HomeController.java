@@ -1,7 +1,10 @@
 package pl.wrryy.amelco.controller;
 
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.wrryy.amelco.entity.*;
 import pl.wrryy.amelco.service.*;
@@ -9,64 +12,63 @@ import pl.wrryy.amelco.service.*;
 import java.util.List;
 
 @Controller
+@SessionAttributes({"coupon"})
 public class HomeController {
     private UserService userService;
     private RoleService roleService;
     private GameService gameService;
-    private TeamService teamService;
     private SportService sportService;
-    private BetService betService;
-    private ContentService contentService;
+    private BetCategoryService betCategoryService;
     private TopicService topicService;
+    private DataFakerService fakerService;
 
-    public HomeController(UserService userService, RoleService roleService, GameService gameService, TeamService teamService,
-                          SportService sportService, BetService betService, ContentService contentService, TopicService topicService) {
+    public HomeController(UserService userService, RoleService roleService, GameService gameService, SportService sportService,
+                          BetCategoryService betCategoryService, TopicService topicService, DataFakerService fakerService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
-        this.teamService = teamService;
         this.sportService = sportService;
-        this.betService = betService;
-        this.contentService = contentService;
+        this.betCategoryService = betCategoryService;
         this.topicService = topicService;
+        this.fakerService = fakerService;
     }
 
-    @ModelAttribute("roles")
-    public List<Role> getRoles() {
-        return roleService.findAll();
-    }
-    @ModelAttribute("users")
-    public List<User> getUsers() {
-        return userService.findAll();
-    }
-    @ModelAttribute("games")
-    public List<Game> getGames() {
-        return gameService.findAllActiveGames();
-    }
     @ModelAttribute("sports")
-    public List<Sport> getSports() {
-        return sportService.findAll();
+    public List<Sport> getSports() { return sportService.findAll(); }
+    @ModelAttribute("games")
+    public List<Game> getGames() { return gameService.findAll(); }
+    @ModelAttribute("bet")
+    public Bet getBet() {
+        Bet bet = new Bet();
+        bet.setRate(fakerService.getRate());
+        bet.setCoupon(new Coupon());
+        return bet; }
+    @ModelAttribute("betCats")
+    public List<BetCategory> getBetCats() { return betCategoryService.findAll(); }
+    @ModelAttribute("user")
+    public User loggedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findByUserName(auth.getName());
+        return loggedUser;
     }
-    @ModelAttribute("teams")
-    public List<Team> getTeams() {
-        return teamService.findAll();
+    @ModelAttribute("coupon")
+    public Coupon getCoupon(){
+    Coupon coupon = new Coupon();
+    coupon.setUser(loggedUser());
+    coupon.setActive(true);
+        return coupon;
+    }
 
-    }
     @RequestMapping("/")
-    public String home() {
+    public String home(Model model) {
+        fakerService.regenerate();
         return "index";
-    }
-
-    @PostMapping("/adduserToTopic")
-    public String adduserToTopic(@RequestParam SubscriptionTopic topic, @RequestParam User user) {
-        topicService.addUserToTopic(topic, user);
-        return "redirect:/admin/topics";
     }
 
     @RequestMapping("/403")
     @ResponseBody
     public String err403() {
-        return "403 bug     ";
+        return "403 :/";
     }
 
 }

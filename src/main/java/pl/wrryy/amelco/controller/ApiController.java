@@ -93,7 +93,9 @@ public class ApiController {
 //                game.setResult(goals);
                 game.setTeams(gameTeams);
                 game.setSport(sport);
-                game.setStarted(started);
+                game.setStart(started);
+                game.setStarted(false);
+                game.setEnded(false);
                 gameService.saveGame(game);
             }
         } catch (

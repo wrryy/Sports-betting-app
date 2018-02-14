@@ -1,5 +1,6 @@
 package pl.wrryy.amelco.controller;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,27 +8,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.wrryy.amelco.entity.Message;
-import pl.wrryy.amelco.entity.User;
-import pl.wrryy.amelco.service.MessageService;
-import pl.wrryy.amelco.service.UserService;
-import pl.wrryy.amelco.service.WalletEventService;
+import pl.wrryy.amelco.entity.*;
+import pl.wrryy.amelco.service.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Secured("ROLE_USER")
 @Controller
+@SessionAttributes({"coupon"}  )
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
     private WalletEventService walletEventService;
     private MessageService messageService;
+    private CouponService couponService;
+    private TopicService topicService;
 
-    public UserController(UserService userService, WalletEventService walletEventService, MessageService messageService) {
+    public UserController(UserService userService, WalletEventService walletEventService,
+                          MessageService messageService, CouponService couponService, TopicService topicService) {
         this.userService = userService;
         this.walletEventService = walletEventService;
         this.messageService = messageService;
+        this.couponService = couponService;
+        this.topicService = topicService;
     }
 
     @ModelAttribute("user")
@@ -42,7 +46,7 @@ public class UserController {
         return "user/account";
     }
     @GetMapping("/friends")
-    public String userPane(Model model) {
+    public String friends(Model model) {
         model.addAttribute("user", loggedUser());
         return "user/friends";
     }
@@ -70,18 +74,15 @@ public class UserController {
         }
     }
     @PostMapping("/sendMessage")
-    public String sendMessage(@ModelAttribute Message message, @RequestParam String target){
-        if(!target.equals("messages")){
-            target = "messages/"+message.getToUser().getUserName();
-        }
+    public String sendMessage(@ModelAttribute Message message){
         messageService.saveMessage(message);
-        return "redirect:/user/"+target;
+        return "redirect:/user/messages";
     }
     @GetMapping("/messages")
     public String allConversations(Model model){
         List<User> friends = userService.getMessagedFriends(loggedUser(), messageService.getMessagesByUser(loggedUser()));
         model.addAttribute("friends", friends);
-        model.addAttribute("newMessage", new Message());
+        model.addAttribute("message", new Message());
         return "user/messages";
     }
     @GetMapping("/messages/{userName}")
@@ -124,15 +125,26 @@ public class UserController {
         userService.walletDeposit(loggedUser, BigDecimal.valueOf(value));
         return "redirect:/user/wallet";
     }
+    @PostMapping("/makeBet")
+    public String makeBet(@ModelAttribute Bet bet, @ModelAttribute Coupon coupon){
+        if(bet.getStake().compareTo(loggedUser().getWalletBalance())>0){
+            return "redirect:/";
+        }
+        bet.setCoupon(coupon);
+        couponService.addBetToCoupon(coupon, bet);
+        return "redirect:/";
+    }
+    @PostMapping("/closeCoupon")
+    public String closeCoupon(@ModelAttribute Coupon coupon){
+        coupon.setActive(false);
+        couponService.saveCoupon(coupon);
+        return "/";
+    }
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @PostMapping("/adduserToTopic")
+    public String adduserToTopic(@RequestParam SubscriptionTopic topic, @RequestParam User user) {
+        topicService.addUserToTopic(topic, user);
+        return "redirect:/admin/topics";
+    }
+
 }
-//    @PostMapping("/edit")
-//    public String editUserPassword(BindingResult result) {
-//TODO dodac @ReqParam, pozmieniac`
-//        User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        if (result.hasErrors()) {
-//            return "user/edit";
-//        } else {
-//            userService.saveUser(user);
-//            return "user/edit";
-//        }
-//    }

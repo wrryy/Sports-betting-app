@@ -25,6 +25,7 @@ public class Coupon {
     private List<Bet> bets;
 
     private LocalDateTime created;
+    private boolean active;
 
     public String getCreatedd() {
         return Arrays.toString(created.withSecond(0).withNano(0).toString().split("T")); }

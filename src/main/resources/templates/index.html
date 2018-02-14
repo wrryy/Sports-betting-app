@@ -1,40 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout">
+      layout:decorator="layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title th:text="#{page.title}"></title>
 </head>
 <body>
 <section layout:fragment="content">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <span th:text="#{page.title.mostpopular}"></span>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Datetime</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="game, c:${games}">
-                        <td th:text="${game.thatTeams()}"></td>
-                        <td th:text="${game.thatResult()}"></td>
-                        <td th:text="${game.startedd}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span th:text="#{page.title.mostpopular}"></span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Match</th>
+                            <th>Datetime</th>
+                            <th>Result</th>
+                            <th>Betting option</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="game, c:${games}">
+                            <td th:text="${game.thatTeams()}"></td>
+                            <td th:text="${game.start}"></td>
+                            <td th:text="${game.thatResult()}"></td>
+                            <td>
+                                <div sec:authorize="isAuthenticated()">
+                                    <form th:action="@{user/makeBet}" th:object="${bet}" method="post">
+                                        Bet type:
+                                        <select th:field="*{betCategory}">
+                                            <option th:each="cat : ${betCats}" th:text="${cat.name}"
+                                                    th:value="${cat.id}"></option>
+                                        </select>
+                                        <br>Match outcome<input type="number" th:field="*{outcome}" th:min="0"
+                                                                th:max="2">
+                                        <br>Stake <input type="number" th:field="*{stake}" th:min="1"
+                                                         th:max="${user.walletBalance}" style="width: 40px">
+                                        <input type="hidden" th:field="*{game}" th:value="${game.id}">
+                                        <input type="hidden" th:field="*{rate}" th:value="${bet.rate.id}">
+                                        <input type="hidden" th:field="*{coupon}" th:value="${bet.coupon.id}">
+                                        <input type="submit" th:value="Bet">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <!--</div>-->
-</div>
+
 </section>
 </body>
 </html>

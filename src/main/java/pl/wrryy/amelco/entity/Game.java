@@ -24,8 +24,9 @@ public class Game {
 
     private int scoreHome;
     private int scoreAway;
-    private LocalDateTime started;
-    private boolean active;
+    private LocalDateTime start;
+    private boolean started;
+    private boolean ended;
 
     public String thatResult(){
         return scoreHome+ ":" + scoreAway;
@@ -34,8 +35,16 @@ public class Game {
         return teams.get(0).getName()+ " - " + teams.get(1).getName();
     }
 
-    public String getStartedd() {
-        return Arrays.toString(started.withSecond(0).withNano(0).toString().split("T")); }
+    public String thatStart() { return Arrays.toString(start.withSecond(0).withNano(0).toString().split("T")); }
 
+    public byte getOutcome(){
+        if(scoreHome>scoreAway){
+            return 0;
+        }else if(scoreHome<scoreAway){
+            return 1;
+        }else{
+            return 2;
+        }
+    }
 
 }

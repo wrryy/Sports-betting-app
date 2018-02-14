@@ -25,8 +25,13 @@ public class Bet {
     private byte outcome;
     @ManyToOne
     private BetCategory betCategory;
-
     @ManyToOne
     private Rate rate;
-//    private boolean active;
+    private boolean active; // true if associated game not finished
+    private boolean won;
+
+    public boolean isGameFinished(){
+        return this.game.isEnded();
+    }
 }
+

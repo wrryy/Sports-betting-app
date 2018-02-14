@@ -15,7 +15,7 @@ public class TopicService {
         this.repository = repository;
     }
 
-    public List<SubscriptionTopic> findAllTopics(){ return repository.findAll();}
+    public List<SubscriptionTopic> findAll(){ return repository.findAll();}
     public SubscriptionTopic findTopicByName(String name){ return repository.findByName(name);}
     public void saveTopic(SubscriptionTopic content){ repository.save(content);}
     public void deleteTopic(long id){ repository.delete(id);}
