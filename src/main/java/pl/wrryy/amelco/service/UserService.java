@@ -2,10 +2,7 @@ package pl.wrryy.amelco.service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.wrryy.amelco.entity.Message;
-import pl.wrryy.amelco.entity.Role;
-import pl.wrryy.amelco.entity.User;
-import pl.wrryy.amelco.entity.WalletEvent;
+import pl.wrryy.amelco.entity.*;
 import pl.wrryy.amelco.repository.RoleRepository;
 import pl.wrryy.amelco.repository.UserRepository;
 import pl.wrryy.amelco.repository.WalletEventRepository;
@@ -33,14 +30,22 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
-    public User findByUserName(String name) { return userRepository.findByUserName(name);}
-    public User findByUserNameLike(String name) { return userRepository.findUserByUserNameEquals(name);}
+    public User findByUserName(String name) {
+        return userRepository.findByUserName(name);
+    }
 
-    public User findByEmail(String email) { return userRepository.findByEmail(email);}
+    public User findByUserNameLike(String name) {
+        return userRepository.findUserByUserNameEquals(name);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     public void saveUser(User user) {
         userRepository.save(user);
     }
+
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -57,7 +62,8 @@ public class UserService {
         user.setWalletBalance(BigDecimal.valueOf(100));
         addUser(user);
     }
-    public List<User> findAll(){
+
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
@@ -84,7 +90,20 @@ public class UserService {
         user.setWalletBalance(user.getWalletBalance().add(value));
         this.saveUser(user);
     }
-    public List<User> getMessagedFriends(User user, List<Message> messages){
+
+    public void walletPlaceBetsWithCouponClosed(User user, Coupon coupon) {
+        for (Bet bet : coupon.getBets()) {
+            WalletEvent event = new WalletEvent();
+            event.setType("Bet placed");
+            event.setCreated(LocalDateTime.now());
+            event.setUser(user);
+            event.setValue(bet.getStake());
+            walletEventRepository.save(event);
+            user.setWalletBalance(user.getWalletBalance().subtract(bet.getStake()));
+        }
+        this.saveUser(user);
+    }
+    public List<User> getMessagedFriends(User user, List<Message> messages) {
         Set<User> set1 = messages.stream().map(Message::getFromUser).collect(Collectors.toSet());
         Set<User> set2 = messages.stream().map(Message::getToUser).collect(Collectors.toSet());
         set1.addAll(set2);
@@ -92,16 +111,17 @@ public class UserService {
         messFriends.remove(user);
         return messFriends;
     }
+
     public void toggleActive(User user) {
         user.setActive(!user.isActive());
     }
 
     public void friendAdd(User loggedUser, User friendToAdd) {
         List<User> friends = loggedUser.getFriends();
-        if(!friends.contains(friendToAdd)){
-        friends.add(friendToAdd);
-        loggedUser.setFriends(friends);
-        saveUser(loggedUser);
+        if (!friends.contains(friendToAdd)) {
+            friends.add(friendToAdd);
+            loggedUser.setFriends(friends);
+            saveUser(loggedUser);
         }
     }
 

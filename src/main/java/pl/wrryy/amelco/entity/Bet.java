@@ -34,5 +34,14 @@ public class Bet {
     public boolean isGameFinished(){
         return this.game.isEnded();
     }
+
+    @Override
+    public String toString() {
+        return game.thatTeams() +" "+ game.thatStart()+
+                ", " + betCategory.getName() +
+                ", stake=" + stake +
+                ", outcome=" + outcome
+                ;
+    }
 }
 

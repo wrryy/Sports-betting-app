@@ -36,7 +36,7 @@ public class HomeController {
     @ModelAttribute("sports")
     public List<Sport> getSports() { return sportService.findAll(); }
     @ModelAttribute("games")
-    public List<Game> getGames() { return gameService.findAll(); }
+    public List<Game> getGames() { return gameService.findTop20(); }
 
     @ModelAttribute("bet")
     public Bet getBet() {
@@ -56,14 +56,12 @@ public class HomeController {
     @ModelAttribute("coupon")
     public Coupon getCoupon(){
     Coupon coupon = new Coupon();
-    coupon.setUser(loggedUser());
     coupon.setActive(true);
         return coupon;
     }
 
     @RequestMapping("/")
         public String home(Model model) {
-        model.addAttribute("user", loggedUser());
         fakerService.regenerate();
             return "index";
     }

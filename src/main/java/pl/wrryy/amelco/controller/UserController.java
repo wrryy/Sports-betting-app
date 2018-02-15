@@ -24,14 +24,16 @@ public class UserController {
     private MessageService messageService;
     private CouponService couponService;
     private TopicService topicService;
+    private BetService betService;
 
-    public UserController(UserService userService, WalletEventService walletEventService,
-                          MessageService messageService, CouponService couponService, TopicService topicService) {
+    public UserController(UserService userService, WalletEventService walletEventService, MessageService messageService,
+                          CouponService couponService, TopicService topicService, BetService betService) {
         this.userService = userService;
         this.walletEventService = walletEventService;
         this.messageService = messageService;
         this.couponService = couponService;
         this.topicService = topicService;
+        this.betService = betService;
     }
 
     @ModelAttribute("user")
@@ -117,28 +119,31 @@ public class UserController {
     @PostMapping("/walletDeposit")
     public String walletDeposit(@RequestParam double value, RedirectAttributes redirectAttributes) {
         User loggedUser = loggedUser();
-        if (value>=200){
-            value *= 1.1;
-            String message = "You gave been granted with additional 10%!";
-            redirectAttributes.addFlashAttribute("message", message);
-        }
+        if (value>=200)
         userService.walletDeposit(loggedUser, BigDecimal.valueOf(value));
         return "redirect:/user/wallet";
     }
     @PostMapping("/makeBet")
-    public String makeBet(@ModelAttribute Bet bet, @ModelAttribute Coupon coupon){
+    public String makeBet(@RequestParam Game game, @ModelAttribute Bet bet, @ModelAttribute Coupon coupon, Model model){
         if(bet.getStake().compareTo(loggedUser().getWalletBalance())>0){
             return "redirect:/";
         }
+        bet.setGame(game);
+        coupon.setUser(loggedUser());
+        couponService.saveCoupon(coupon);
         bet.setCoupon(coupon);
+        betService.saveBet(bet);
         couponService.addBetToCoupon(coupon, bet);
+        model.addAttribute("coupon", coupon);
         return "redirect:/";
     }
     @PostMapping("/closeCoupon")
-    public String closeCoupon(@ModelAttribute Coupon coupon){
-        coupon.setActive(false);
+    public String closeCoupon(Model model, @RequestParam boolean close, @ModelAttribute Coupon coupon){
+        coupon.setActive(close);
         couponService.saveCoupon(coupon);
-        return "/";
+        userService.walletPlaceBetsWithCouponClosed(loggedUser(), coupon);
+        model.addAttribute("coupon", new Coupon());
+        return "/user/wallet";
     }
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping("/adduserToTopic")

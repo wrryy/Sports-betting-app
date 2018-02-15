@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Coupon {
     private User user;
 
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL)
-    private List<Bet> bets;
+    private List<Bet> bets = new ArrayList<>();
 
     private LocalDateTime created;
     private boolean active;
@@ -30,5 +31,8 @@ public class Coupon {
     public String getCreatedd() {
         return Arrays.toString(created.withSecond(0).withNano(0).toString().split("T")); }
 
-
+    @Override
+    public String toString() {
+        return bets.toString();
+    }
 }

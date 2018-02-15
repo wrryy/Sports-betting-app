@@ -39,9 +39,7 @@
                                                                 th:max="2">
                                         <br>Stake <input type="number" th:field="*{stake}" th:min="1"
                                                          th:max="${user.walletBalance}" style="width: 40px">
-                                        <input type="hidden" th:field="*{game}" th:value="${game.id}">
-                                        <input type="hidden" th:field="*{rate}" th:value="${bet.rate.id}">
-                                        <input type="hidden" th:field="*{coupon}" th:value="${coupon.id}">
+                                        <input type="hidden" name="game" th:value="${game.id}">
                                         <input type="submit" th:value="Bet">
                                     </form>
                                 </div>

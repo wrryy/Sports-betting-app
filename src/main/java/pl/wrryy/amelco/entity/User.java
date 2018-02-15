@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,11 +32,9 @@ public class User {
     @NotEmpty
     private String password;
 
-//    @OneToMany(mappedBy = "user")
-//    private UserCouponBet userCouponBet;
-
     @ElementCollection
     private List<String> walletHistory;
+    @Digits(integer = 15, fraction = 2)
     private BigDecimal walletBalance;
 
     @ManyToMany(fetch = FetchType.EAGER)
