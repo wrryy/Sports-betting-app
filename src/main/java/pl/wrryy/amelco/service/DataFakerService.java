@@ -32,7 +32,7 @@ public class DataFakerService {
         this.userService = userService;
     }
 
-    @Scheduled(fixedRate =10000)
+    @Scheduled(fixedRate =15000)
     public void generate() {
             Faker faker = new Faker();
             List<Game> games = gameService.findAllActiveGames();

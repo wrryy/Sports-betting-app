@@ -15,10 +15,18 @@ public class CouponService {
     public CouponService(CouponRepository couponRepository) {
         this.couponRepository = couponRepository;
     }
-    public List<Coupon> findAllByUser(User user){ return couponRepository.findAllByUser(user);}
-    public void saveCoupon(Coupon coupon){ couponRepository.save(coupon);}
-    public void addBetToCoupon(Coupon coupon, Bet bet){
+
+    public List<Coupon> findAllByUser(User user) {
+        return couponRepository.findAllByUser(user);
+    }
+
+    public void saveCoupon(Coupon coupon) {
+        couponRepository.save(coupon);
+    }
+
+    public void addBetToCoupon(Coupon coupon, Bet bet) {
         List<Bet> bets = coupon.getBets();
         bets.add(bet);
         coupon.setBets(bets);
-}}
+    }
+}

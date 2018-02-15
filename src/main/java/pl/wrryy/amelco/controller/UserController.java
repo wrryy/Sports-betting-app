@@ -147,15 +147,18 @@ public class UserController {
 
     @PostMapping("/makeBet")
     public String makeBet(@RequestParam Game game, @ModelAttribute Bet bet, @ModelAttribute Coupon coupon, Model model) {
-        try{
-        if (bet.getStake().compareTo(loggedUser().getWalletBalance()) < 0) {
-            bet.setGame(game);
-            bet.setActive(true);
-            coupon.setUser(loggedUser());
-            bet.setCoupon(coupon);
-            couponService.addBetToCoupon(coupon, bet);
-            model.addAttribute("coupon", coupon);
-        }}catch(NullPointerException e){}
+        try {
+            if (bet.getStake().compareTo(loggedUser().getWalletBalance()) < 0) {
+                bet.setGame(game);
+                bet.setActive(true);
+                coupon.setUser(loggedUser());
+                bet.setCoupon(coupon);
+                couponService.addBetToCoupon(coupon, bet);
+                model.addAttribute("coupon", coupon);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         return "redirect:/";
     }
 
@@ -172,7 +175,8 @@ public class UserController {
             }
             userService.walletPlaceBetsWithCouponClosed(loggedUser(), coupon);
             model.addAttribute("coupon", new Coupon());
-        }catch (ConstraintViolationException e ){}
+        } catch (ConstraintViolationException e) {
+        }
         return "redirect:/user/wallet";
     }
 

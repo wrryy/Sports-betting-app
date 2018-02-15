@@ -8,6 +8,7 @@ import pl.wrryy.amelco.repository.BetRepository;
 import pl.wrryy.amelco.repository.RateRepository;
 import pl.wrryy.amelco.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,9 +35,10 @@ public class BetService {
         return betRepository.findAllByWonIsTrue();
     }
 
+    @Transactional
     public Bet setBetRate(Bet bet) {
         LocalDateTime now = LocalDateTime.now();
-        Rate rate = rateRepository.findFirstByBetCategory_IdAndGame_IdAndCreatedBetween(bet.getBetCategory().getId(), bet.getGame().getId(), now.minusSeconds(5), now.plusSeconds(5));
+        Rate rate = rateRepository.findFirstByBetCategoryAndGameOrderByCreatedDesc(bet.getBetCategory(), bet.getGame());
         bet.setRate(rate);
         return bet;
     }
