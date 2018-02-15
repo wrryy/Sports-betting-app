@@ -11,8 +11,6 @@ import pl.wrryy.amelco.entity.User;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class DataFakerService {
@@ -56,8 +54,7 @@ public class DataFakerService {
         List<Bet> activeBets = betService.findAllByActiveIsTrue();
         activeBets.stream()
                 .filter(Bet::isGameFinished)
-                .map(this::checkIfWon)
-                .collect(Collectors.toList());
+                .forEach(this::changeIfWon);
     }
     @Scheduled(fixedRate = 3000)
     public void giveMoneyifWon() {
@@ -69,12 +66,11 @@ public class DataFakerService {
         }
     }
 
-    private Bet checkIfWon(Bet bet) {
+    private void changeIfWon(Bet bet) {
         boolean iswon = bet.getGame().getOutcome() == bet.getOutcome();
         bet.setWon(iswon);
         bet.setActive(false);
         betService.saveBet(bet);
-        return bet;
     }
 
 

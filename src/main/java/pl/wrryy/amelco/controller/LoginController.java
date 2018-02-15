@@ -11,7 +11,6 @@ import pl.wrryy.amelco.service.UserService;
 
 import javax.validation.Valid;
 
-import static pl.wrryy.amelco.utils.MessageHelper.addSuccessAttribute;
 
 @Controller
 public class LoginController {
@@ -43,7 +42,6 @@ public class LoginController {
                 model.addAttribute("message", "Error: Login/Email is already in our database.");
                 return "user/register";
             }
-            addSuccessAttribute(redirectAttrs, "info.success");
             return "redirect:/";
         }
     }

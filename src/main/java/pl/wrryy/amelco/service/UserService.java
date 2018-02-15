@@ -1,5 +1,6 @@
 package pl.wrryy.amelco.service;
 
+import org.assertj.core.api.BDDAssertions;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.wrryy.amelco.entity.*;
@@ -16,13 +17,13 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final WalletEventRepository walletEventRepository;
+    private final WalletEventService walletEventService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, WalletEventRepository walletEventRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, WalletEventService walletEventService, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.walletEventRepository = walletEventRepository;
+        this.walletEventService = walletEventService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -68,52 +69,75 @@ public class UserService {
     }
 
     public void walletWithdraw(User user, BigDecimal value) {
-        WalletEvent event = new WalletEvent();
-        event.setType("Withdrawal");
-        event.setCreated(LocalDateTime.now());
-        event.setUser(user);
-        event.setValue(value);
-
-        walletEventRepository.save(event);
+        String event = "Withdrawal";
+        WalletEvent walletEvent = walletEventService.createWalletEvent(event, user, value);
+        walletEventService.saveWalletEvent(walletEvent);
         user.setWalletBalance(user.getWalletBalance().subtract(value));
         this.saveUser(user);
     }
 
     public void walletDeposit(User user, BigDecimal value) {
-        WalletEvent event = new WalletEvent();
-        event.setType("Deposit");
-        event.setCreated(LocalDateTime.now());
-        event.setUser(user);
-        event.setValue(value);
-
-        walletEventRepository.save(event);
-        user.setWalletBalance(user.getWalletBalance().add(value));
-        this.saveUser(user);
-    }
-    public void walletPay(User user, BigDecimal value){
-        WalletEvent event = new WalletEvent();
-        event.setType("Bet won");
-        event.setCreated(LocalDateTime.now());
-        event.setUser(user);
-        event.setValue(value);
-
-        walletEventRepository.save(event);
+        String event = "Deposit";
+        WalletEvent walletEvent = walletEventService.createWalletEvent(event, user, value);
+        walletEventService.saveWalletEvent(walletEvent);
         user.setWalletBalance(user.getWalletBalance().add(value));
         this.saveUser(user);
     }
 
+    /**
+     * Increases user walletBalance in case of successful bet settlement.
+     *
+     * @param user
+     * @param value
+     */
+    public void walletPay(User user, BigDecimal value) {
+        String event = "Bet won";
+        WalletEvent walletEvent = walletEventService.createWalletEvent(event, user, value);
+        walletEventService.saveWalletEvent(walletEvent);
+        user.setWalletBalance(user.getWalletBalance().add(value));
+        this.saveUser(user);
+    }
+
+    /**
+     * Decreases user walletBalance when coupon is closed.
+     *
+     * @param user
+     * @param coupon
+     */
     public void walletPlaceBetsWithCouponClosed(User user, Coupon coupon) {
         for (Bet bet : coupon.getBets()) {
-            WalletEvent event = new WalletEvent();
-            event.setType("Bet placed");
-            event.setCreated(LocalDateTime.now());
-            event.setUser(user);
-            event.setValue(bet.getStake());
-            walletEventRepository.save(event);
+            String event = "Bet placed";
+            WalletEvent walletEvent = walletEventService.createWalletEvent(event, user, bet.getStake());
+            walletEventService.saveWalletEvent(walletEvent);
             user.setWalletBalance(user.getWalletBalance().subtract(bet.getStake()));
         }
         this.saveUser(user);
     }
+
+    public boolean hasEnoughWalletBalance(User user, Coupon coupon, Bet bet) {
+        int check = 1;
+        List<Bet> bets = coupon.getBets();
+        BigDecimal stake = bet.getStake();
+
+        if (bets != null && stake != null) {
+            BigDecimal walletBalance = user.getWalletBalance();
+            if (bets.size() < 1 && stake.compareTo(walletBalance) < 1) {
+                return true;
+            }
+            BigDecimal currentCouponValue = coupon.getBets().stream().map((x) -> x.getStake())
+                    .reduce((x, y) -> x.add(y)).get().add(bet.getStake());
+            check = walletBalance.compareTo(currentCouponValue);
+        }
+        return check > 0;
+    }
+
+    /**
+     * Returns list of friends whom user messaged with.
+     *
+     * @param user
+     * @param messages
+     * @return list of friends whom user messaged with.
+     */
     public List<User> getMessagedFriends(User user, List<Message> messages) {
         Set<User> set1 = messages.stream().map(Message::getFromUser).collect(Collectors.toSet());
         Set<User> set2 = messages.stream().map(Message::getToUser).collect(Collectors.toSet());
@@ -122,7 +146,6 @@ public class UserService {
         messFriends.remove(user);
         return messFriends;
     }
-
 
     public void friendAdd(User loggedUser, User friendToAdd) {
         List<User> friends = loggedUser.getFriends();

@@ -13,5 +13,4 @@ import java.util.List;
 public interface RateRepository extends JpaRepository<Rate, Long>{
 
     public Rate findFirstByBetCategoryAndGameOrderByCreatedDesc(BetCategory betCategory, Game game);
-    public List<Rate> findTop5ByCreatedBefore(LocalDateTime now);
 }

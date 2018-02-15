@@ -146,18 +146,17 @@ public class UserController {
     }
 
     @PostMapping("/makeBet")
-    public String makeBet(@RequestParam Game game, @ModelAttribute Bet bet, @ModelAttribute Coupon coupon, Model model) {
-        try {
-            if (bet.getStake().compareTo(loggedUser().getWalletBalance()) < 0) {
-                bet.setGame(game);
-                bet.setActive(true);
-                coupon.setUser(loggedUser());
-                bet.setCoupon(coupon);
-                couponService.addBetToCoupon(coupon, bet);
-                model.addAttribute("coupon", coupon);
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+    public String makeBet(@RequestParam Game game, @ModelAttribute Bet bet, @ModelAttribute Coupon coupon, Model model, RedirectAttributes redirectAttributes) {
+        boolean hasEnoughMoney = userService.hasEnoughWalletBalance(loggedUser(), coupon, bet);
+        if (hasEnoughMoney) {
+            bet.setGame(game);
+            bet.setActive(true);
+            coupon.setUser(loggedUser());
+            bet.setCoupon(coupon);
+            couponService.addBetToCoupon(coupon, bet);
+            model.addAttribute("coupon", coupon);
+        }else{
+            redirectAttributes.addFlashAttribute("message", "You don't have enough money in wallet.");
         }
         return "redirect:/";
     }

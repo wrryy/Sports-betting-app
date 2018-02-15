@@ -37,7 +37,6 @@ public class BetService {
 
     @Transactional
     public Bet setBetRate(Bet bet) {
-        LocalDateTime now = LocalDateTime.now();
         Rate rate = rateRepository.findFirstByBetCategoryAndGameOrderByCreatedDesc(bet.getBetCategory(), bet.getGame());
         bet.setRate(rate);
         return bet;
