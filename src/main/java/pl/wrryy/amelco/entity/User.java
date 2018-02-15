@@ -34,7 +34,6 @@ public class User {
 
     @ElementCollection
     private List<String> walletHistory;
-    @Digits(integer = 15, fraction = 2)
     private BigDecimal walletBalance;
 
     @ManyToMany(fetch = FetchType.EAGER)

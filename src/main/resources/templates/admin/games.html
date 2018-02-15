@@ -34,6 +34,7 @@
         <table id="datatable" class="table table-striped table-bordered">
             <tr>
                 <th><a class="sorted" sd:pagination-sort="teams" th:text="#{game.teams}"></a></th>
+                <th><a class="sorted" sd:pagination-sort="sport" th:text="#{game.result}"></a></th>
                 <th><a class="sorted" sd:pagination-sort="sport" th:text="#{sport}"></a></th>
                 <th><a class="sorted" sd:pagination-sort="started" th:text="#{game.started}"></a></th>
             </tr>
@@ -43,7 +44,7 @@
                 <td th:text="${game.thatTeams()}"></td>
                 <td th:text="${game.thatResult()}"></td>
                 <td th:text="${game.sport.name}"></td>
-                <td th:text="${game.thatStart()}"></td>
+                <td th:text="${game.getStart()}"></td>
             </tr>
             </tbody>
         </table>

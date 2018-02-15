@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import pl.wrryy.amelco.entity.Bet;
 import pl.wrryy.amelco.entity.Game;
 import pl.wrryy.amelco.entity.Rate;
+import pl.wrryy.amelco.entity.User;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
@@ -18,26 +20,24 @@ public class DataFakerService {
     private GameService gameService;
     private BetCategoryService betCategoryService;
     private BetService betService;
-    private CouponService couponService;
     private RateService rateService;
+    private UserService userService;
 
     public DataFakerService(GameService gameService, BetCategoryService betCategoryService,
-                            BetService betService, CouponService couponService, RateService rateService) {
+                            BetService betService, RateService rateService, UserService userService) {
         this.gameService = gameService;
         this.betCategoryService = betCategoryService;
         this.betService = betService;
-        this.couponService = couponService;
         this.rateService = rateService;
+        this.userService = userService;
     }
 
-
-    @Scheduled(fixedRate = 5000)
-    public void regenerate() {
-        if (c == 0) {
-            c+=1;
+    @Scheduled(fixedRate =10000)
+    public void generate() {
             Faker faker = new Faker();
-            for (long i = 0; i < 10; i++) {
-                Game game = gameService.findOne(i + 1);
+            List<Game> games = gameService.findAllActiveGames();
+            for (int i = 0; i < games.size(); i++) {
+                Game game = games.get(i);
                 for (int j = 1; j < 4; j++) {
                     Rate rate = new Rate();
                     rate.setGame(game);
@@ -45,39 +45,37 @@ public class DataFakerService {
                     rate.setCreated(LocalDateTime.now());
                     rate.setRate(faker.number().randomDouble(2, 1, 5));
                     rateService.saveRate(rate);
-                }
             }
         }
     }
-
-    //    @Scheduled(cron = "0 0/1 * * * ?")
-    public void checkActiveMatches() {
-        for (int i = 0; i < 5; i++) {
-            Game game = gameService.findOne(i + 1);
-            game.setEnded(false);
-            gameService.saveGame(game);
-        }
-    }
-
     /**
      * Checks if active bets in database won.
      */
-    @Scheduled(cron = "0 2 * * * ?")
+    @Scheduled(fixedRate = 5000)
     public void changeWonBets() {
         List<Bet> activeBets = betService.findAllByActiveIsTrue();
         activeBets.stream()
                 .filter(Bet::isGameFinished)
                 .map(this::checkIfWon)
                 .collect(Collectors.toList());
-
+    }
+    @Scheduled(fixedRate = 3000)
+    public void giveMoneyifWon() {
+        List<Bet> wonBets = betService.findAllBetsByWonIsTrue();
+        for (Bet bet: wonBets) {
+            User betUser = bet.getCoupon().getUser();
+            BigDecimal prize = bet.getStake().multiply(BigDecimal.valueOf(bet.getRate().getRate()));
+            userService.walletPay(betUser, prize);
+        }
     }
 
-    public Bet checkIfWon(Bet bet) {
+    private Bet checkIfWon(Bet bet) {
         boolean iswon = bet.getGame().getOutcome() == bet.getOutcome();
         bet.setWon(iswon);
         bet.setActive(false);
         betService.saveBet(bet);
         return bet;
     }
+
 
 }

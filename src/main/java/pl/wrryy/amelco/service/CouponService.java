@@ -12,7 +12,9 @@ import java.util.List;
 public class CouponService {
     private CouponRepository couponRepository;
 
-
+    public CouponService(CouponRepository couponRepository) {
+        this.couponRepository = couponRepository;
+    }
     public List<Coupon> findAllByUser(User user){ return couponRepository.findAllByUser(user);}
     public void saveCoupon(Coupon coupon){ couponRepository.save(coupon);}
     public void addBetToCoupon(Coupon coupon, Bet bet){

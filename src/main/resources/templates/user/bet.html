@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layoutUser1" xmlns:sd="http://www.w3.org/1999/xhtml">
+
+<section layout:fragment="content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span th:text="#{page.userpage.searchfriend}"></span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <!--<div class="col-lg-4">-->
+                <form action="#" th:action="@{/user/addFriend}" method="post">
+                    <span th:text="${message != null} ? ${message} : ''"></span><br>
+                    <span th:text="#{search}"></span><input type="text" name="username"/>
+                    <div>
+                        <input type="submit" th:text="#{searchbutton}"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="div column-list">
+        <div class="bb">
+            <table class="table table-striped table-hover">
+                <tr>
+                    <td><strong>#</strong></td>
+                    <th><a class="sorted" sd:pagination-sort="games" th:text="#{game.teams}"></a></th>
+                    <th><a class="sorted" sd:pagination-sort="stake" th:text="#{bet.stake}"></a></th>
+                    <th><a class="sorted" sd:pagination-sort="created" th:text="#{rate}"></a></th>
+                    <th><a class="sorted" sd:pagination-sort="created" th:text="#{bet.created}"></a></th>
+                    <th><a class="sorted" sd:pagination-sort="active" th:text="#{active}"></a></th>
+                    <th><a class="sorted" sd:pagination-sort="active" th:text="#{won}"></a></th>
+                </tr>
+                <th:block th:each="cop, iter : ${cops}" th:rowspan="${cop.getBets().size()}">
+                    <tr th:each="bet: ${cop.getBets()}">
+                        <td th:text="${iter.count}"></td>
+                        <td th:text="${bet.getGame().thatTeams()}"></td>
+                        <td th:text="${bet.stake}"></td>
+                        <td th:text="${bet.rate.rate}"></td>
+                        <td th:text="${bet.getCoupon().createdd}"></td>
+                        <td th:text="${bet.active}"></td>
+                        <td th:text="${bet.won}"></td>
+                    </tr>
+                </th:block>
+            </table>
+
+</section>
+
+</html>

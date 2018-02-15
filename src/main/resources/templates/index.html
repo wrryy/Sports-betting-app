@@ -16,17 +16,17 @@
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                         <tr>
+                            <th>Id</th>
                             <th>Match</th>
-                            <th>Datetime</th>
-                            <th>Result</th>
+                            <th>Start date</th>
                             <th>Betting option</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="game, c:${games}">
+                            <td th:text="${game.id}"></td>
                             <td th:text="${game.thatTeams()}"></td>
                             <td th:text="${game.start}"></td>
-                            <td th:text="${game.thatResult()}"></td>
                             <td>
                                 <div sec:authorize="isAuthenticated()">
                                     <form th:action="@{user/makeBet}" th:object="${bet}" method="post">

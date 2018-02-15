@@ -90,6 +90,17 @@ public class UserService {
         user.setWalletBalance(user.getWalletBalance().add(value));
         this.saveUser(user);
     }
+    public void walletPay(User user, BigDecimal value){
+        WalletEvent event = new WalletEvent();
+        event.setType("Bet won");
+        event.setCreated(LocalDateTime.now());
+        event.setUser(user);
+        event.setValue(value);
+
+        walletEventRepository.save(event);
+        user.setWalletBalance(user.getWalletBalance().add(value));
+        this.saveUser(user);
+    }
 
     public void walletPlaceBetsWithCouponClosed(User user, Coupon coupon) {
         for (Bet bet : coupon.getBets()) {
@@ -112,9 +123,6 @@ public class UserService {
         return messFriends;
     }
 
-    public void toggleActive(User user) {
-        user.setActive(!user.isActive());
-    }
 
     public void friendAdd(User loggedUser, User friendToAdd) {
         List<User> friends = loggedUser.getFriends();

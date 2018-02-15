@@ -36,7 +36,7 @@ public class HomeController {
     @ModelAttribute("sports")
     public List<Sport> getSports() { return sportService.findAll(); }
     @ModelAttribute("games")
-    public List<Game> getGames() { return gameService.findTop20(); }
+    public List<Game> getGames() { return gameService.findAllActiveGames(); }
 
     @ModelAttribute("bet")
     public Bet getBet() {
@@ -62,7 +62,8 @@ public class HomeController {
 
     @RequestMapping("/")
         public String home(Model model) {
-        fakerService.regenerate();
+        fakerService.generate();
+        fakerService.changeWonBets();
             return "index";
     }
 

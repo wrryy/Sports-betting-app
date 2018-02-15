@@ -338,9 +338,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <span th:text="#{page.title.userbets}"></span>
-                        <form th:action="@{/closeCoupon}" >
+                        <form th:action="@{/user/closeCoupon}" method="post">
                             <input type="hidden" th:value="false" name="close">
-                            <input type="submit" th:value="Close coupon and bet">
+                            <input type="submit" th:value="|Close coupon and bet|">
                         </form>
                     </div>
                     <i class="fa fa-fw"></i>

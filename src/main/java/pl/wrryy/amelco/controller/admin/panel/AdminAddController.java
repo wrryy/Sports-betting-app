@@ -19,19 +19,17 @@ public class AdminAddController {
     private GameService gameService;
     private TeamService teamService;
     private SportService sportService;
-    private BetService betService;
     private BetCategoryService betCategoryService;
     private ContentService contentService;
     private TopicService topicService;
 
     public AdminAddController(UserService userService, RoleService roleService, GameService gameService, TeamService teamService,
-                              SportService sportService, BetService betService, BetCategoryService betCategoryService, ContentService contentService, TopicService topicService) {
+                              SportService sportService, BetCategoryService betCategoryService, ContentService contentService, TopicService topicService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
         this.teamService = teamService;
         this.sportService = sportService;
-        this.betService = betService;
         this.betCategoryService = betCategoryService;
         this.contentService = contentService;
         this.topicService = topicService;

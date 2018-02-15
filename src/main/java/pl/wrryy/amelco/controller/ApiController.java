@@ -1,5 +1,6 @@
 package pl.wrryy.amelco.controller;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -8,6 +9,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.wrryy.amelco.entity.Game;
@@ -32,29 +35,11 @@ public class ApiController {
     private GameService gameService;
     private SportService sportService;
 
+
     public ApiController(TeamService teamService, GameService gameService, SportService sportService) {
         this.teamService = teamService;
         this.gameService = gameService;
         this.sportService = sportService;
-    }
-
-    @RequestMapping("/get")
-    @ResponseBody
-    private JsonObject readUrl() throws Exception {
-        String sURL = "https://api.crowdscores.com/v1/teams/4254";
-
-        // Connect to the URL using java's native library
-        URL url = new URL(sURL);
-        HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        request.setRequestProperty("x-crowdscores-api-key", "e9fc31f124b548e099fb9be219d502d7");
-        request.connect();
-
-        // Convert to a JSON object to print data
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
-        String zipcode = rootobj.get("showLeagueTables").getAsString();
-        return rootobj;
     }
 
     @RequestMapping("/parse")
@@ -94,31 +79,45 @@ public class ApiController {
                 game.setTeams(gameTeams);
                 game.setSport(sport);
                 game.setStart(started);
-                game.setStarted(false);
-                game.setEnded(false);
+                game.setStarted(true);
+                game.setEnded(true);
                 gameService.saveGame(game);
             }
-        } catch (
-                FileNotFoundException e)
-
-        {
-            return "FNF";
-        } catch (
-                ParseException e1)
-
-        {
-            return "PE";
-        } catch (
-                IOException e2)
-
-        {
-            return "IOE";
-        } catch (
-                Exception ee)
-
-        {
-            return ee.getMessage();
+        } catch (FileNotFoundException e) {
+        } catch (IOException e1) {
+        } catch (ParseException e2) {
         }
         return "git";
+    }
+
+    @GetMapping("/0/{id}")
+    public String endGameHome(@PathVariable long id) {
+        Game game = gameService.findOne(id);
+        game.setEnded(true);
+        game.setScoreAway(0);
+        game.setScoreHome(1);
+        gameService.saveGame(game);
+        return "redirect:/";
+    }
+
+    @GetMapping("/1/{id}")
+    public String endGameAway(@PathVariable long id) {
+        Game game = gameService.findOne(id);
+        game.setEnded(true);
+        game.setScoreAway(1);
+        game.setScoreHome(0);
+        gameService.saveGame(game);
+        return "redirect:/";
+    }
+
+    @GetMapping("/reset")
+    public String reset() {
+        for (long i = 428; i < 431; i++) {
+            Game game = gameService.findOne(i);
+            game.setEnded(false);
+            gameService.saveGame(game);
+        }
+
+        return "redirect:/";
     }
 }

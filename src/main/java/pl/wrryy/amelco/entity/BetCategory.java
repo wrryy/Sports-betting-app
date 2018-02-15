@@ -21,4 +21,10 @@ public class BetCategory {
     @ManyToMany
     private List<Sport> sports;
 
+    @Override
+    public String toString() {
+        return "BetCategory{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

@@ -28,7 +28,10 @@ public class GameService {
     public List<Game> findAll() {
         return gameRepository.findAll();
     }
+    public List<Game> findTop20() { return gameRepository.findTop20ByOrderByStartDesc();
+    }
     public List<Game> findAllActiveGames() { return gameRepository.findAllByEndedIsFalse(); }
+
 
     public Game findByTeam(Team team) {
         return gameRepository.findAllByTeams(team);
