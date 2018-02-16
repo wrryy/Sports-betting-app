@@ -1,5 +1,6 @@
 package pl.wrryy.amelco.service;
 
+import lombok.AllArgsConstructor;
 import org.assertj.core.api.BDDAssertions;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -115,12 +116,14 @@ public class UserService {
     }
 
     public boolean hasEnoughWalletBalance(User user, Coupon coupon, Bet bet) {
-        int check = 1;
+        BigDecimal walletBalance = user.getWalletBalance();
         List<Bet> bets = coupon.getBets();
         BigDecimal stake = bet.getStake();
-
+        if(walletBalance==null){
+            return false;
+        }
+        int check = 1;
         if (bets != null && stake != null) {
-            BigDecimal walletBalance = user.getWalletBalance();
             if (bets.size() < 1 && stake.compareTo(walletBalance) < 1) {
                 return true;
             }
@@ -132,11 +135,11 @@ public class UserService {
     }
 
     /**
-     * Returns list of friends whom user messaged with.
+     * Returns list of friends whom a user chatted with.
      *
      * @param user
      * @param messages
-     * @return list of friends whom user messaged with.
+     * @return list of friends whom a user chatted with.
      */
     public List<User> getMessagedFriends(User user, List<Message> messages) {
         Set<User> set1 = messages.stream().map(Message::getFromUser).collect(Collectors.toSet());

@@ -20,17 +20,16 @@ public class HomeController {
     private SportService sportService;
     private BetCategoryService betCategoryService;
     private TopicService topicService;
-    private DataFakerService fakerService;
+
 
     public HomeController(UserService userService, RoleService roleService, GameService gameService, SportService sportService,
-                          BetCategoryService betCategoryService, TopicService topicService, DataFakerService fakerService) {
+                          BetCategoryService betCategoryService, TopicService topicService) {
         this.userService = userService;
         this.roleService = roleService;
         this.gameService = gameService;
         this.sportService = sportService;
         this.betCategoryService = betCategoryService;
         this.topicService = topicService;
-        this.fakerService = fakerService;
     }
 
     @ModelAttribute("sports")
@@ -62,8 +61,6 @@ public class HomeController {
 
     @RequestMapping("/")
         public String home(Model model) {
-        fakerService.generate();
-        fakerService.changeWonBets();
             return "index";
     }
 
@@ -73,4 +70,14 @@ public class HomeController {
         return "403 :/";
     }
 
+    @GetMapping("/games/active/{sport}")
+    @ResponseBody
+    public List<Game> showActiveGames(@PathVariable String sport, Model model){
+        return gameService.findAllActiveBySport(sportService.findByName(sport));
+    }
+    @GetMapping("/games/past/{sport}")
+    @ResponseBody
+    public List<Game> showPastGames(@PathVariable String sport, Model model){
+        return gameService.findAllPastBySport(sportService.findByName(sport));
+    }
 }

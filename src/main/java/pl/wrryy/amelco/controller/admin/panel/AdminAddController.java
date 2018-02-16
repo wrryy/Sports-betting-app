@@ -9,7 +9,9 @@ import pl.wrryy.amelco.entity.*;
 import pl.wrryy.amelco.service.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin/add")
@@ -103,7 +105,7 @@ public class AdminAddController {
         }
     }
 
-    @PostMapping("/category")
+    @PostMapping("/sport")
     public String addCategory(@Valid Sport sport, BindingResult result) {
         if (result.hasErrors()) {
             return "admin/categories";
@@ -128,7 +130,12 @@ public class AdminAddController {
         if (result.hasErrors()) {
             return "admin/content";
         } else {
-            subscriptionContent.setUsers(subscriptionContent.getTopic().getUsers());
+            Set<User> users = subscriptionContent.getTopic().getUsers();
+            Set<User> contentUsers = new HashSet<>();
+            for (User u : users) {
+                contentUsers.add(u);
+            }
+            subscriptionContent.setUsers(contentUsers);
             contentService.saveContent(subscriptionContent);
             return "redirect:/admin/content";
         }

@@ -20,7 +20,7 @@
     </div>
     <div class=" div column-form">
         <div class="bb">
-            <form action="#" th:action="@{/adduserToTopic}" method="post">
+            <form action="#" th:action="@{/user/adduserToTopic}" method="post">
                 <h3>Add user to subscription topic</h3>
                 <div>Topic
                     <select name="topic">
@@ -28,7 +28,7 @@
                     </select>
                 </div>
                 <div>User to add
-                    <select name="user">
+                    <select name="users" th:multiple="true">
                         <option th:each="user: ${users}" name="user" th:value="${user.id}" th:text="${user.userName}"></option>
                     </select>
                 </div>

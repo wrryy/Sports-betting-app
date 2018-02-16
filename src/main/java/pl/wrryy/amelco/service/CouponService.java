@@ -17,7 +17,7 @@ public class CouponService {
     }
 
     public List<Coupon> findAllByUser(User user) {
-        return couponRepository.findAllByUser(user);
+        return couponRepository.findAllByUserOrderByCreatedDesc(user);
     }
 
     public void saveCoupon(Coupon coupon) {

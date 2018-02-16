@@ -53,9 +53,8 @@ public class ApiController {
                 Game game = new Game();
                 JSONObject match = (JSONObject) o;
 
-                int[] goals = new int[2];
-                goals[0] = Integer.valueOf("" + match.get("homeGoals"));
-                goals[1] = Integer.parseInt("" + match.get("awayGoals"));
+                game.setScoreHome(Integer.valueOf("" + match.get("homeGoals")));
+                game.setScoreAway(Integer.parseInt("" + match.get("awayGoals")));
 
                 Sport sport = sportService.findOne(1);
                 List<Team> gameTeams = new ArrayList<>();

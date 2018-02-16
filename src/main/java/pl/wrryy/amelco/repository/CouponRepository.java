@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon, Long>{
-    public List<Coupon> findAllByUser(User user);
+    public List<Coupon> findAllByUserOrderByCreatedDesc(User user);
 }

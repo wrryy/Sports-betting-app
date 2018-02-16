@@ -12,6 +12,7 @@ import pl.wrryy.amelco.entity.*;
 import pl.wrryy.amelco.service.*;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,15 +28,17 @@ public class UserController {
     private CouponService couponService;
     private TopicService topicService;
     private BetService betService;
+    private ContentService contentService;
 
     public UserController(UserService userService, WalletEventService walletEventService, MessageService messageService,
-                          CouponService couponService, TopicService topicService, BetService betService) {
+                          CouponService couponService, TopicService topicService, BetService betService, ContentService contentService) {
         this.userService = userService;
         this.walletEventService = walletEventService;
         this.messageService = messageService;
         this.couponService = couponService;
         this.topicService = topicService;
         this.betService = betService;
+        this.contentService = contentService;
     }
 
     @ModelAttribute("user")
@@ -43,6 +46,11 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findByUserName(auth.getName());
         return loggedUser;
+    }
+
+    @ModelAttribute("news")
+    public List<SubscriptionContent> getNewsletter() {
+        return contentService.findAllByUser(loggedUser());
     }
 
     @GetMapping("/account")
@@ -81,29 +89,19 @@ public class UserController {
         }
     }
 
-    @PostMapping("/sendMessage")
-    public String sendMessage(@ModelAttribute Message message) {
-        messageService.saveMessage(message);
-        return "redirect:/user/messages";
-    }
-
     @GetMapping("/messages")
     public String allConversations(Model model) {
-        List<User> friends = userService.getMessagedFriends(loggedUser(), messageService.getMessagesByUser(loggedUser()));
-        model.addAttribute("friends", friends);
+        List<Message> messages = messageService.getMessagesByUser(loggedUser());
+        model.addAttribute("messages", messages);
         model.addAttribute("message", new Message());
         return "user/messages";
     }
 
-    @GetMapping("/messages/{userName}")
-    public String getConversation(@PathVariable String userName, Model model) {
-//        User toUser = userService.findByUserName(userName);
-        User toUser = userService.findByUserNameLike(userName);
-        List<Message> messages = messageService.getConversationWithUser(loggedUser(), toUser);
-        model.addAttribute("newMessage", new Message());
-        model.addAttribute("messages", messages);
-        model.addAttribute("friend", toUser);
-        return "user/messages";
+    @PostMapping("/sendMessage")
+    public String sendMessage(@ModelAttribute Message message) {
+        message.setFromUser(loggedUser());
+        messageService.saveMessage(message);
+        return "redirect:/user/messages";
     }
 
     @GetMapping("/wallet")
@@ -151,14 +149,22 @@ public class UserController {
         if (hasEnoughMoney) {
             bet.setGame(game);
             bet.setActive(true);
+            bet.setPaid(false);
             coupon.setUser(loggedUser());
             bet.setCoupon(coupon);
             couponService.addBetToCoupon(coupon, bet);
             model.addAttribute("coupon", coupon);
-        }else{
+        } else {
             redirectAttributes.addFlashAttribute("message", "You don't have enough money in wallet.");
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/betDelete/{id}")
+    public String deleteBet(@PathVariable int id, @ModelAttribute Coupon coupon, Model model){
+        coupon.getBets().remove(id);
+        model.addAttribute("coupon", coupon);
+        return "index";
     }
 
     @PostMapping("/closeCoupon")
@@ -181,8 +187,10 @@ public class UserController {
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PostMapping("/adduserToTopic")
-    public String adduserToTopic(@RequestParam SubscriptionTopic topic, @RequestParam User user) {
-        topicService.addUserToTopic(topic, user);
+    public String adduserToTopic(@RequestParam SubscriptionTopic topic, @RequestParam List<User> users) {
+        for (User user : users) {
+            topicService.addUserToTopic(topic, user);
+        }
         return "redirect:/admin/topics";
     }
 

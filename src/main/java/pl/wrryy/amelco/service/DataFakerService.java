@@ -63,6 +63,8 @@ public class DataFakerService {
             User betUser = bet.getCoupon().getUser();
             BigDecimal prize = bet.getStake().multiply(BigDecimal.valueOf(bet.getRate().getRate()));
             userService.walletPay(betUser, prize);
+            bet.setPaid(true);
+            betService.saveBet(bet);
         }
     }
 

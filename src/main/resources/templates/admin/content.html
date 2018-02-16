@@ -9,10 +9,10 @@
 <section layout:fragment="content">
     <div class=" div column-form">
         <div class="bb">
-            <form action="#" th:action="@{/admin/add/subContent}" method="post" th:object="${subscriptionContent}">
+            <form action="#" th:action="@{/admin/add/content}" method="post" th:object="${subscriptionContent}">
                 <h3>Add new subscription content</h3>
-                <div>Topic<select th:field="*{subscriptionTopic}">
-                    <option th:each="topic: ${topics}" th:value="${topic.id}" th:text="${topic.name}"></option>
+                <div>Topic<select th:field="*{topic}">
+                    <option th:each="top: ${topics}" th:value="${top.id}" th:text="${top.name}"></option>
                 </select></div>
                 <div>
                     <span>Content</span><input type="text" th:field="*{content}"/>
@@ -32,7 +32,7 @@
                 </tr>
                 <tr th:each="cont,iter: ${contents}">
                     <td th:text="${iter.count}"></td>
-                    <td th:text="${cont.topic}"></td>
+                    <td th:text="${cont.topic.name}"></td>
                     <td th:text="${cont.content}"></td>
                     <td><a th:text="#{admin.action.delete}" th:href="@{/admin/delete/content(id=${cont.id})}"></a>
                     </td>

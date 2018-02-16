@@ -36,5 +36,8 @@ public class GameService {
     public Game findByTeam(Team team) {
         return gameRepository.findAllByTeams(team);
     } //TODO implement front in future
-    public List<Game> findBySport(Sport sport) { return gameRepository.findBySport(sport);} //TODO implement front in future
+    public List<Game> findAllActiveBySport(Sport sport) {
+        return gameRepository.findBySportAndStartedIsFalseAndEndedIsFalseOrderByStartedDesc(sport);}
+    public List<Game> findAllPastBySport(Sport sport) {
+        return gameRepository.findBySportAndStartedIsTrueAndEndedIsTrueOrderByStartedDesc(sport);}
 }

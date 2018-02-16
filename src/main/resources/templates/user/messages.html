@@ -12,8 +12,8 @@
                 <form action="#" th:action="@{/user/sendMessage}" method="post" th:object="${message}">
                     <div>
                         <span th:text="#{page.userpage.friend}">Users</span>
-                        <select>
-                            <option th:each="friend: ${user.friends}" th:field="*{toUser}" th:value="${friend.id}"
+                        <select th:field="*{toUser}">
+                            <option th:each="friend: ${user.friends}"  th:value="${friend.id}"
                                     th:text="${friend.userName}"></option>
                         </select>
                     </div>
@@ -21,7 +21,7 @@
                         <input type="text" th:field="*{text}"/>
                     </div>
                     <div>
-                        <input type="hidden" th:field="*{fromUser}" th:value="${user}"/>
+                        <input type="hidden" th:field="*{fromUser}" th:value="${user.id}"/>
                     </div>
                     <input type="submit" th:text="#{send}"/>
                 </form>
@@ -37,31 +37,11 @@
         <div class="panel-body">
             <div class="row">
                 <ul>
-                    <li th:each="friend: ${friends}">
-                        <span th:text="${friend.userName}"></span>
-                        <a th:href="@{/user/messages/{userName}(userName=${friend.userName})}"
-                           th:text="#{page.userpage.view}"></a></li>
+                    <li th:each="mess: ${messages}">
+                        <span th:text="|From ${mess.fromUser} to ${mess.toUser} :: ${mess.text}|"></span>
                 </ul>
             </div>
         </div>
     </div>
-    </th:block>
-    <th:block th:if="${friends}==null">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span th:text="#{page.userpage.conversations}"></span>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <ul>
-                        <li th:each="friend: ${friends}">
-                            <span th:text="${friend.userName}"></span>
-                            <a th:href="@{/user/messages/{userName}(userName=${friend.userName})}"
-                               th:text="#{page.userpage.text}"></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </th:block>
 </section>
 </html>

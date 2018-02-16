@@ -34,6 +34,7 @@ public class Bet {
     private Rate rate;
     private boolean active; // true if associated game not finished
     private boolean won;
+    private boolean paid;
 
     public boolean isGameFinished(){
         return this.game.isEnded();

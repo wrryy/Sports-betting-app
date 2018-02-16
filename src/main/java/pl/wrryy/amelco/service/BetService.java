@@ -32,7 +32,7 @@ public class BetService {
         return betRepository.findAllByActiveIsTrue();
     }
     public List<Bet> findAllBetsByWonIsTrue(){
-        return betRepository.findAllByWonIsTrue();
+        return betRepository.findAllByWonIsTrueAndPaidIsFalse();
     }
 
     @Transactional

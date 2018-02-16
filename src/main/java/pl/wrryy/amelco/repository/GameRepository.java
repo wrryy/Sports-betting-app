@@ -14,7 +14,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
     public Game findAllByTeams(Team team);
     public List<Game> findTop20ByOrderByStartDesc();
-    public List<Game> findBySport(Sport sport);
+    public List<Game> findBySportAndStartedIsFalseAndEndedIsFalseOrderByStartedDesc(Sport sport);
+    public List<Game> findBySportAndStartedIsTrueAndEndedIsTrueOrderByStartedDesc(Sport sport);
     public List<Game> findAllByEndedIsFalse();
 
 
